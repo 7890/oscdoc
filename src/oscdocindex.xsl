@@ -58,7 +58,7 @@
 http://stackoverflow.com/questions/2053843/min-and-max-value-of-data-type-in-c
 http://steve.hollasch.net/cgindex/coding/ieeefloat.html
  -->
-                    <li><strong>f</strong>: float, signed 32 bit float (4 bytes), -3.40282347e+38 - 3.40282347e+38 (smallest: 1.175494351e-38)</li>
+                    <li><strong>f</strong>: float, signed 32 bit float (4 bytes), -3.40282347E+38 - 3.40282347E+38 (smallest: 1.175494351E-38)</li>
                     <li><strong>d</strong>: double, signed 64 bit float (8 bytes), -1.797693E+308 - 1.797693E+308 (smallest: 2.225074E-308)</li>
                     <li><strong>s</strong>: string</li>
                     <li><strong>b</strong>: blob</li>
