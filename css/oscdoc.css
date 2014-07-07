@@ -1,0 +1,196 @@
+
+h1 { 
+	font-size: 20pt; 
+	color:Navy; 
+}
+
+/*
+h2 { 
+	font-size: 18pt; 
+	font-weight:bold; 
+	color: #66D; 
+}
+*/
+
+h2 { 
+	font-size: 16pt; 
+	color:Navy; 
+}
+
+h3 { 
+	font: 14pt monospace;
+	font-weight: bold;
+/*	font-size: 14pt; */
+	color:black; 
+	padding-left: 30px;
+}
+
+h4 { 
+	font: 14pt monospace;
+	font-weight: bold;
+	font-size: 12pt; 
+	color:black; 
+	padding-left: 60px;
+}
+
+h5 { 
+	font: 14pt monospace;
+	font-weight: bold;
+	font-size: 12pt; 
+	color:black; 
+	padding-left: 90px;
+}
+
+
+
+
+
+
+
+
+
+body { 
+	background-color: #FFF; 
+	font: 16pt Helvetica, Arial;
+	color: #000; 
+}
+
+body { 
+	margin:0; 
+	padding:0; 
+	height:100%;
+}
+
+
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+ul li {
+/*    background-image: url("1x30.png");*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: 0px 5px;*/
+    padding-left: 30px;
+}
+
+ul li.double {
+/*    background-image: url("1x30.png");*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: 0px 5px;*/
+    padding-left: 60px;
+}
+
+
+
+
+
+div.inputDiv  {
+	float: left;
+/*	position: fixed;*/
+	top: 0px;
+	left; 0px;
+/*height: 50%;*/
+	width: 100%;
+/*	width:30%;*/
+	border: Navy 1px dotted;
+	margin: 0px;
+	padding: 0px;
+	background-color: #eff;
+}
+
+div.listDiv  {
+	float: left;
+	width: 100%;
+	border: Navy 1px dotted;
+	margin: 0px;
+	padding: 0px;
+	background-color: #eff;
+}
+
+div.outputDiv  {
+	float: left;
+	width: 100%;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 10px;
+	padding: 0px;
+	font: 12pt Helvetica, Arial;
+	background-color: #efefff;
+}
+
+
+div.xmlDiv {
+	margin-left: 60px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+
+div.ascii {
+	background-color: #efffee;
+	font-family: monospace
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+
+
+
+
+
+/*
+.focused {
+	border: 4px solid red;
+}
+*/
+
+.focused
+{
+	font-weight: bold;
+	background: #aa1111;
+	color: #fff!important;
+	outline: 0;
+}
+
+
+
+.hidden_content{
+	display: none;
+}
+
+#input1
+{
+	font-size: 1.4em;
+	font-weight: bold;
+	color: #000;
+}
+
+table.mystyle
+{
+margin-left: 90px;
+border-width: 0 0 1px 1px;
+border-spacing: 0;
+border-collapse: collapse;
+border-style: solid;
+}
+ 
+.mystyle td, .mystyle th
+{
+white-space: nowrap;
+margin: 0;
+padding: 4px;
+border-width: 1px 1px 0 0;
+border-style: solid;
+}
+
+
+span.value
+{
+	background: #fff;
+	color: #143;
+}
+

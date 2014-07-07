@@ -1,0 +1,57 @@
+http://www2.informatik.hu-berlin.de/~obecker/XSLT/#xmlverbatim
+Wed Jun 25 16:07:58 CEST 2014
+
+http://www2.informatik.hu-berlin.de/~obecker/XSLT/xmlverbatim/xmlverbatim.xsl
+http://www2.informatik.hu-berlin.de/~obecker/XSLT/xmlverbatim/xmlverbatimwrapper.xsl
+http://www2.informatik.hu-berlin.de/~obecker/XSLT/xmlverbatim/xmlverbatim.css
+
+XML to HTML Verbatim Formatter with Syntax Highlighting
+Version 1.1 / 2002-08-22 (change log)
+Runs with:  Saxon  Xalan
+
+This stylesheet renders an XML source in HTML. Via a CSS stylesheet you may define your custom style of display. The package consists of three files:
+
+    xmlverbatim.xsl - (pretty HTML)
+    This is the heart of the formatter. If you use it on its own the output will be the whole rendered XML source inside of <div>-tags. Every XML language element is marked by corresponding <span>-tags. The output can be included into other HTML pages, e.g. via Server Side Includes (SSI).
+    Furthermore you can import the stylesheet into your own one and invoke it on the elements you need to be displayed in HTML (by writing <xsl:apply-templates select="..." mode="xmlverb"/>). Note: you must define your own template rule matching the document root. Otherwise the imported template will be used, i.e. the whole document will be processed in xmlverb mode.
+    There's the possibility to render several XML nodes at once without outputting the parent node: choose <verb:wrapper xmlns:verb="http://informatik.hu-berlin.de/xmlverbatim"> as additional parent element in the source. This could be useful for displaying XML fragments, e.g. examples for documentation purposes. Any namespace declarations that shouldn't appear in the output can be placed in the verb:wrapper start tag.
+    xmlverbatimwrapper.xsl - (pretty HTML)
+    This stylesheet imports xmlverbatim.xsl and creates a standalone HTML page from the XML source. The value of the global parameter "css-stylesheet" will be used as href attribute of <link rel="stylesheet" ...>. Its default value is "xmlverbatim.css".
+    Another global parameter select may be used to specify which elements (together with their contents) should be printed only. All other elements (which don't have an ancestor named $select) will be ignored.
+    xmlverbatim.css
+    This CSS stylesheet defines fonts and colors for all XML language elements (element names, attribute names and values, text, comments, etc). This one serves as an example, you may alter it the way you like.
+
+Known problems:
+Output of attributes isn't optimal. Because of the XML information set there's no information how attributes are ordered and indented in the source document. Therefore all attributes appear in one line. They are separated by normal spaces, so the browser wraps long lines if necessary. The same applies to namespace declarations.
+
+XT and Oracle don't implement the namespace axis, so these processors won't work with my stylesheet. 
+
+
+xmlverbatim.xsl:
+
+32a33,35
+>    <xsl:param name="indent-increment" select="'&#xA0;&#xA0;'" />
+> 
+> <!--
+36c39
+< 
+---
+> -->
+69c72,73
+<       <xsl:param name="indent-increment" select="'&#xA0;&#xA0;&#xA0;'" />
+---
+>       <xsl:param name="indent-increment" select="$indent-increment"/>
+> 
+70a75
+> <!--
+71a77
+> -->
+73a80
+> 
+
+xmlverbatim.css:
+
+1c1
+< .xmlverb-default          { color: #333333; background-color: #ffffff;
+---
+> .xmlverb-default          { color: #333333; background-color: #efffee;
