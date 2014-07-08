@@ -1,8 +1,11 @@
-//this is a txl file
-//see https://github.com/7890/txl
-//
-//cat thisfile.txl | txl2xml > thisfile.xml
-//oscdoc thisfile.xml /tmp
+/-this is a txl file
+/-see https://github.com/7890/txl
+/-
+/-cat thisfile.txl | txl2xml > thisfile.xml
+/-oscdoc thisfile.xml /tmp
+
+//see https://github.com/7890/oschema
+//see https://github.com/7890/oscdoc
 
 osc_unit::
 format_version 1.0
