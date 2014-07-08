@@ -1,118 +1,50 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <osc_unit format_version="1.0">
-
   <meta>
-    <name>osc_tool</name>
-    <uri>http://a.unique.url/def/osc_tool/</uri>
-    <doc_origin>http://any.url/pointingto/?the=1&amp;xml</doc_origin>
-    <author>
-      <firstname>John</firstname>
-      <lastname>Doe</lastname>
-      <email>jd@there.cc</email>
-    </author>
-    <author>
-      <firstname>The</firstname>
-      <lastname>Other</lastname>
-      <email>to@there.cc</email>
-    </author>
-    <url>https://github.com/7890/oschema</url>
-    <url>https://github.com/7890/oscdoc</url>
-    <desc>Just a test</desc>
-    <desc>Another description here</desc>
-
-    <custom>Any content here
-<a><b>aa<x>bb</x></b>cc</a>
-<!--
-<message_in pattern="/duration/follow_transport" typetag="i">
-<param_i symbol="follow_transport">
-      <range_min_max min="0" max="1" default="0">
-        <grid>
-          <point symbol="off" value="0">Don&apos;t follow tranport</point>
-          <point symbol="on" value="1">Transport defines event duration</point>
-        </grid>
-      </range_min_max>
-    </param_i>
-</message_in>
--->
-    </custom>
+    <name>a_prog</name>
+    <uri>http://unique.uri/for/that/prog/ending_with_slash/</uri>
+    <doc_origin>http://where.to/?find=this&amp;xml_file</doc_origin>
   </meta>
-
   <doc>
-
-    <h2>osc_tool - does this and that</h2>
-
-    <h3>this</h3>
-    <ul>
-      <li>-apples are good</li>
-      <li>-oranges too</li>
-    </ul>
-
-    <h3>that</h3>
+    <h2>a_prog - doing this and that</h2>
+    <p>how it works</p>
     <div class="ascii">
       <pre>
- 
-     ^ amplitude
-     |
-     |
-     |          _____ A level
-     |         /\
-     |        / |\
-     |       /  | \____________________.
-     |      /   |  |     ^            | \
-     |     /    |  |     | S Level    |  \    (0 on idle)
-     |____/_____|__|_____|____________|___\________-&gt; time
-          |     |  |                  |    |
-          | A   |D | S                | R  |
-          |                           |
-          | restart / note on         | note off
+
+ &lt;&lt; &gt;&gt;  :o)
+ \
+  \
+   \
 
 </pre>
     </div>
-
   </doc>
-
-  <message_in pattern="/a/path" typetag="">
-    <desc>this is a message without any parameters.</desc>
-  </message_in>
-
-  <message_in pattern="/another/pattern" typetag="f">
-    <desc>with a float value</desc>
-    <param_f symbol="my_symbol" units="bananas">
-      <range_inf_inf default="0">
+  <message_in pattern="/set/temperature" typetag="f">
+    <desc>An example message description</desc>
+    <param_f symbol="temperature" units="celsius degrees">
+      <range_min_inf min="-273.15" lmin="[">
         <hints>
-          <point symbol="low" value="-1">Lower bound for DAC</point>
-          <point symbol="zero" value="0">Zero, silence</point>
-          <point symbol="high" value="1">Upper bound for DAC</point>
+          <point symbol="zero_f" value="-17.78">0 Fahrenheit</point>
+          <point symbol="zero_c" value="0">Freezing/melting point of water</point>
+          <point symbol="body" value="36.8">Average body temperature</point>
+          <point symbol="boil" value="100">Boiling point of water</point>
         </hints>
-      </range_inf_inf>
+      </range_min_inf>
     </param_f>
   </message_in>
-
-  <message_out pattern="/print/info" typetag="i_">
-    <param_i symbol="the_symbol"/>
-    <param__/>
-  </message_out>
-
-  <message_out pattern="/test/target" typetag="XfiifXhbs">
-    <condition type="on_request">
-      <desc>aaa</desc>
-      <desc>bbb</desc>
+  <message_out pattern="/button" typetag="i">
+    <condition type="on_change">
+      <desc>This message is sent whenever the button status changed</desc>
     </condition>
-    <target type="hardcoded" proto="TCP">
-      <desc>aaa</desc>
-    </target>
-    <target type="hardcoded">
-      <desc>bbb</desc>
-    </target>
-    <param_X symbol="mygeneric" units="&#xE4;&#xF6;&#xFC;"/>
-    <param_f symbol="aa"/>
-    <param_i symbol="bb"/>
-    <param_i symbol="cc"/>
-    <param_f symbol="dd"/>
-    <param_X symbol="ee"/>
-    <param_h symbol="ff"/>
-    <param_b symbol="bytestyle" min_size="22" max_size="33"/>
-    <param_s symbol="symbolic" min_length="2" max_length="33"/>
+    <target type="configured" proto="UDP"/>
+    <param_i symbol="button_status">
+      <range_min_max min="0" max="1">
+        <grid>
+          <point symbol="off" value="0">Off</point>
+          <point symbol="on" value="1">On</point>
+          <!--close document-->
+        </grid>
+      </range_min_max>
+    </param_i>
   </message_out>
-
 </osc_unit>
