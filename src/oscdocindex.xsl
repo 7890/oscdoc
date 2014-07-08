@@ -74,7 +74,7 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
                   <ul>
                     <li><strong><xsl:value-of select="$infinity"/></strong>: Infinity. The mininum or maximum possible value is limited only by the used data type</li>
                     <li><strong>[</strong>: For lower range bounds: Minimum value of range is inclusive</li>
-                    <li><strong>]</strong>: For lower range bounds: Maximum value of range is inclusive</li>
+                    <li><strong>]</strong>: For lower range bounds: Minimum value of range is exclusive</li>
                     <li><strong>]</strong>: For upper range bounds: Maximum value of range is inclusive</li>
                     <li><strong>[</strong>: For upper range bounds: Maximum value of range is exclusive</li>
                     <li><strong>Hints</strong>: Points of interest in range (not exclusively). Also when either -<xsl:value-of select="$infinity"/> or +<xsl:value-of select="$infinity"/> involved)</li>
