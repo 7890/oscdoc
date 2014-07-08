@@ -88,11 +88,11 @@ value 1
 
 .point Light
 symbol s2
-value 1
+value 2
 
 .point Emergency
 symbol s2
-value 1
+value 3
 
 _message_out
 
