@@ -174,7 +174,10 @@
   <!-- =============================== -->
   <xsl:template match="range_min_max[@lmin='[' and @lmax=']'] | param_i//range_min_max | param_h//range_min_max">
     <xsl:element name="h4">
-      <xsl:value-of select="concat('Range []: ',@min,' _LTE_ value _LTE_ ',@max,' Default: ',@default)"/>
+      <xsl:value-of select="concat('Range []: ',@min,' _LTE_ value _LTE_ ',@max)"/>
+      <xsl:if test="@default">
+        <xsl:value-of select="concat(' Default: ',@default)"/>
+      </xsl:if>
     </xsl:element>
     <xsl:apply-templates/>
   </xsl:template>
