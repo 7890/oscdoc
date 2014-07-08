@@ -114,6 +114,9 @@
   <xsl:template match="target">
     <h3>
       <xsl:value-of select="@type"/>
+      <xsl:if test="@proto">
+        <xsl:value-of select="concat(' (',@proto,')')"/>
+      </xsl:if>
     </h3>
     <xsl:apply-templates select="custom"/>
     <xsl:apply-templates select="desc"/>
