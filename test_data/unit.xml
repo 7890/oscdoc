@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--this is a txl file-->
+<!--see https://github.com/7890/txl-->
+<!---->
+<!--cat thisfile.txl | txl2xml > thisfile.xml-->
+<!--oscdoc thisfile.xml /tmp-->
 <osc_unit format_version="1.0">
   <meta>
     <name>a_prog</name>
@@ -32,12 +37,21 @@
       </range_min_inf>
     </param_f>
   </message_in>
-  <message_out pattern="/button" typetag="i">
+  <message_out pattern="/switch" typetag="ii">
     <condition type="on_change">
-      <desc>This message is sent whenever the button status changed</desc>
+      <desc>This message is sent whenever the switch status changed</desc>
     </condition>
     <target type="configured" proto="UDP"/>
-    <param_i symbol="button_status">
+    <param_i symbol="switch_number">
+      <range_min_max min="1" max="3">
+        <grid>
+          <point symbol="s1" value="1">Turbo Boost</point>
+          <point symbol="s2" value="1">Light</point>
+          <point symbol="s2" value="1">Emergency</point>
+        </grid>
+      </range_min_max>
+    </param_i>
+    <param_i symbol="switch_status">
       <range_min_max min="0" max="1">
         <grid>
           <point symbol="off" value="0">Off</point>

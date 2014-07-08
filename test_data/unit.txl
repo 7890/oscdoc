@@ -61,12 +61,12 @@ value 100
 .*
 
 =message_out
-pattern /button
-typetag i
+pattern /switch
+typetag ii
 
 =condition
 type on_change
-.desc This message is sent whenever the button status changed
+.desc This message is sent whenever the switch status changed
 ..
 
 =target
@@ -75,7 +75,29 @@ proto UDP
 ..
 
 =param_i
-symbol button_status
+symbol switch_number
+
+=range_min_max
+min 1
+max 3
+
+=grid
+.point Turbo Boost
+symbol s1
+value 1
+
+.point Light
+symbol s2
+value 1
+
+.point Emergency
+symbol s2
+value 1
+
+_message_out
+
+=param_i
+symbol switch_status
 
 =range_min_max
 min 0
