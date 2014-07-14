@@ -26,8 +26,8 @@ info:
 install: 
 
 	@echo ""
-	@echo "installing oscdoc"
-	@echo "-----------------"
+	@echo "installing oscdoc, osctxt0"
+	@echo "--------------------------"
 	@echo ""
 	@echo "INSTALLDIR: $(INSTALLDIR)"
 	@echo ""
@@ -54,8 +54,12 @@ install:
 	cp $(CSS)/xmlverbatim.css $(RESSOURCESDIR)/
 	cp $(SRC)/oscdoc.js $(RESSOURCESDIR)/
 
+	cp $(SRC)/osctxt0.sh $(INSTALLDIR)/osctxt0
+	cp $(SRC)/osctxt0.xsl $(INSTALLDIR)/
+
 	@echo ""
 	@echo "use: oscdoc test_data/unit.xml /tmp"
+	@echo "use: osctxt0 test_data/unit.xml"
 	@echo ""
 	@echo "done."
 	@echo ""
@@ -83,6 +87,9 @@ uninstall:
 	rm -f $(INSTALLDIR)/base64decoder.xsl
 
 	rm -rf $(RESSOURCESDIR)
+
+	rm -f $(INSTALLDIR)/osctxt0
+	rm -f $(INSTALLDIR)/osctxt0.xsl
 
 	@echo ""
 	@echo "done."
