@@ -41,7 +41,7 @@
                 <div id="list" class="listDiv"/>
 
                 <div>
-                  <small>created with oscdoc</small>
+                  <small>created with <a href="https://github.com/7890/oscdoc" target="_blank">oscdoc</a></small>
                 </div>
               </td>
               <td style="vertical-align:top;padding-left:0px">
@@ -65,6 +65,7 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
                     <li><strong>b</strong>: blob</li>
                     <li><strong>X</strong>: unknown / custom parameter type. arbitrary content</li>
                     <li><strong>_</strong>: last expressed param in typetag can occur 0 to n times</li>
+                    <li><strong>*</strong>: anything (also: handled by reusable aspect)</li>
                   </ul>
                   <h3>Directions</h3>
                   <ul>
