@@ -63,6 +63,15 @@ value 100
 
 .*
 
+=message_in
+pattern /sub/*
+typetag *
+uri http://kind.of/namespace/for_semantics/y/
+doc_origin http://fetch.it/here.xml
+.desc reuse already defined aspect, sorting in below /sub
+
+.*
+
 =message_out
 pattern /switch
 typetag ii
@@ -114,6 +123,16 @@ value 0
 .point On
 symbol on
 value 1
+
+.*
+
+=message_out
+pattern /*/*/that
+typetag s
+.desc dynamically built message path, following rule x
+=param_s
+symbol name
+max_length 8
 
 //close document
 ::

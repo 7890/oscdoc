@@ -34,6 +34,9 @@
       </range_min_inf>
     </param_f>
   </message_in>
+  <message_in pattern="/sub/*" typetag="*" uri="http://kind.of/namespace/for_semantics/y/" doc_origin="http://fetch.it/here.xml">
+    <desc>reuse already defined aspect, sorting in below /sub</desc>
+  </message_in>
   <message_out pattern="/switch" typetag="ii">
     <condition type="on_change">
       <desc>This message is sent whenever the switch status changed</desc>
@@ -53,9 +56,14 @@
         <grid>
           <point symbol="off" value="0">Off</point>
           <point symbol="on" value="1">On</point>
-          <!--close document-->
         </grid>
       </range_min_max>
     </param_i>
+  </message_out>
+  <message_out pattern="/*/*/that" typetag="s">
+    <desc>dynamically built message path, following rule x</desc>
+    <param_s symbol="name" max_length="8">
+      <!--close document-->
+    </param_s>
   </message_out>
 </osc_unit>
