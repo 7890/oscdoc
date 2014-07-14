@@ -69,8 +69,8 @@
           </h4>
         <h3>doc_origin</h3>
           <h4>
-            <a href="{@url}" target="_blank">
-               <xsl:value-of select="@url"/>
+            <a href="{@doc_origin}" target="_blank">
+               <xsl:value-of select="@doc_origin"/>
             </a>
          </h4>
       </xsl:if>
