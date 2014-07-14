@@ -61,6 +61,20 @@
         <xsl:value-of select="concat(@pattern,' ',$tt)"/>
       </h3>
 
+      <xsl:if test="@uri">
+        <h2>Reusable Aspect</h2>
+        <h3>uri</h3>
+          <h4>
+            <xsl:value-of select="@uri"/>
+          </h4>
+        <h3>doc_origin</h3>
+          <h4>
+            <a href="{@url}" target="_blank">
+               <xsl:value-of select="@url"/>
+            </a>
+         </h4>
+      </xsl:if>
+
       <h2>Direction</h2>
       <xsl:element name="h3">
         <xsl:value-of select="$dir"/>
