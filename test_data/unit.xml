@@ -6,6 +6,8 @@
     <name>a_prog</name>
     <uri>http://unique.uri/for/that/prog/ending_with_slash/</uri>
     <doc_origin>http://where.to/?find=this&amp;xml_file</doc_origin>
+    <url>http://a.b</url>
+    <url>http://c.d</url>
   </meta>
   <doc>
     <h2>a_prog - doing this and that</h2>

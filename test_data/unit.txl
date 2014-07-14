@@ -14,6 +14,8 @@ format_version 1.0
 .name a_prog
 .uri http://unique.uri/for/that/prog/ending_with_slash/
 .doc_origin http://where.to/?find=this&xml_file
+.url http://a.b
+.url http://c.d
 ..//end meta
 
 =doc
