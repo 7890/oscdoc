@@ -91,7 +91,7 @@ function handle_messages(message,text,dir)
 		var regexp=new RegExp(text,"g");
 		if(pattern.match(regexp))
 		{
-			out+='<a href="#'+unit_uri+'_'+pattern+'_'+typetag+'" onfocus="javascript:patternClicked('+0+','+direction_+');">'+pattern+'</a><br/>';
+			out+='<a href="#'+unit_uri+'_'+pattern+'_'+typetag+'" onfocus="javascript:patternClicked('+0+','+direction_+');">'+pattern+' '+typetag+'</a><br/>';
 			match_count++
 		}
 	}
@@ -109,7 +109,7 @@ function handle_messages(message,text,dir)
 				var regexp=new RegExp(text,"g");
 				if(pattern.match(regexp))
 			{
-				out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+'</a><br/>';
+				out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a><br/>';
 				match_count++
 			}
 		}
