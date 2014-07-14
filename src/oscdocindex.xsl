@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:import href="xmlverbatim.xsl"/>
+  <xsl:output method="html" indent="yes"/>
   <xsl:variable name="infinity" select="'&#8734;'"/>
   <xsl:variable name="nbsp" select="'&#xA0;'"/>
   <!-- //tb/1407 -->
