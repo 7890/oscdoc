@@ -61,6 +61,11 @@
         <xsl:value-of select="concat(@pattern,' ',$tt)"/>
       </h3>
 
+      <h2>Direction</h2>
+      <xsl:element name="h3">
+        <xsl:value-of select="$dir"/>
+      </xsl:element>
+
       <xsl:if test="@uri">
         <h2>Reusable Aspect</h2>
         <h3>uri</h3>
@@ -74,11 +79,6 @@
             </a>
          </h4>
       </xsl:if>
-
-      <h2>Direction</h2>
-      <xsl:element name="h3">
-        <xsl:value-of select="$dir"/>
-      </xsl:element>
 
       <xsl:apply-templates select="desc"/>
 
