@@ -8,7 +8,7 @@
 //see https://github.com/7890/oscdoc
 
 osc_unit::
-format_version 1.0
+format_version 1.1
 
 =meta
 .name a_prog
