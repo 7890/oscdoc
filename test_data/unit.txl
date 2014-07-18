@@ -12,10 +12,8 @@ format_version 1.1
 
 =meta
 .name a_prog
-.uri http://unique.uri/for/that/prog/ending_with_slash/
-.doc_origin http://where.to/?find=this&xml_file
-.url http://a.b
-.url http://c.d
+.uri http://lowres.ch/osc/units/a_prog/
+.doc_origin http://lowres.ch/oscdoc/unit.xml
 ..//end meta
 
 =doc
@@ -32,6 +30,37 @@ class ascii
 |   \
 |
 .*
+
+//first message_in
+
+=message_in
+pattern /sub/*
+typetag *
+=aspect
+.uri http://lowres.ch/osc/aspects/example_ascpect2/
+.doc_origin http://lowres.ch/oscdoc/aspect2.xml
+.xpath //message_in[not(@pattern='/non_use')]
+..
+.desc reuse already defined aspect, sorting in below /sub
+//params don't make sense here
+//.param_i
+//symbol aaa
+
+.*
+
+=message_in
+pattern /*
+typetag *
+=aspect
+//uri is optional
+//.uri http://lowres.ch/osc/aspects/example_ascpect/
+.doc_origin http://lowres.ch/oscdoc/aspect.xml
+.xpath //message_in[not(@pattern='/non_use')]
+..
+.desc mixed sort-in
+
+.*
+
 
 =message_in
 pattern /set/temperature
@@ -65,12 +94,17 @@ value 100
 
 .*
 
-=message_in
-pattern /sub/*
+//===============================
+
+=message_out
+pattern /*
 typetag *
-uri http://kind.of/namespace/for_semantics/y/
-doc_origin http://fetch.it/here.xml
-.desc reuse already defined aspect, sorting in below /sub
+=aspect
+.uri http://lowres.ch/osc/aspects/example_ascpect/
+.doc_origin http://lowres.ch/oscdoc/aspect.xml
+.xpath //message_out
+..
+.desc mixed sort-in
 
 .*
 

@@ -4,10 +4,8 @@
 <osc_unit format_version="1.1">
   <meta>
     <name>a_prog</name>
-    <uri>http://unique.uri/for/that/prog/ending_with_slash/</uri>
-    <doc_origin>http://where.to/?find=this&amp;xml_file</doc_origin>
-    <url>http://a.b</url>
-    <url>http://c.d</url>
+    <uri>http://lowres.ch/osc/units/a_prog/</uri>
+    <doc_origin>http://lowres.ch/oscdoc/unit.xml</doc_origin>
   </meta>
   <doc>
     <h2>a_prog - doing this and that</h2>
@@ -23,6 +21,27 @@
 </pre>
     </div>
   </doc>
+  <!--first message_in-->
+  <message_in pattern="/sub/*" typetag="*">
+    <aspect>
+      <uri>http://lowres.ch/osc/aspects/example_ascpect2/</uri>
+      <doc_origin>http://lowres.ch/oscdoc/aspect2.xml</doc_origin>
+      <xpath>//message_in[not(@pattern='/non_use')]</xpath>
+    </aspect>
+    <desc>reuse already defined aspect, sorting in below /sub</desc>
+    <!--params don't make sense here-->
+    <!--.param_i-->
+    <!--symbol aaa-->
+  </message_in>
+  <message_in pattern="/*" typetag="*">
+    <aspect>
+      <!--uri is optional-->
+      <!--.uri http://lowres.ch/osc/aspects/example_ascpect/-->
+      <doc_origin>http://lowres.ch/oscdoc/aspect.xml</doc_origin>
+      <xpath>//message_in[not(@pattern='/non_use')]</xpath>
+    </aspect>
+    <desc>mixed sort-in</desc>
+  </message_in>
   <message_in pattern="/set/temperature" typetag="f">
     <desc>An example message description</desc>
     <param_f symbol="temperature" units="celsius degrees">
@@ -36,9 +55,15 @@
       </range_min_inf>
     </param_f>
   </message_in>
-  <message_in pattern="/sub/*" typetag="*" uri="http://kind.of/namespace/for_semantics/y/" doc_origin="http://fetch.it/here.xml">
-    <desc>reuse already defined aspect, sorting in below /sub</desc>
-  </message_in>
+  <!--===============================-->
+  <message_out pattern="/*" typetag="*">
+    <aspect>
+      <uri>http://lowres.ch/osc/aspects/example_ascpect/</uri>
+      <doc_origin>http://lowres.ch/oscdoc/aspect.xml</doc_origin>
+      <xpath>//message_out</xpath>
+    </aspect>
+    <desc>mixed sort-in</desc>
+  </message_out>
   <message_out pattern="/switch" typetag="ii">
     <condition type="on_change">
       <desc>This message is sent whenever the switch status changed</desc>
