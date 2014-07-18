@@ -66,18 +66,23 @@
         <xsl:value-of select="$dir"/>
       </xsl:element>
 
-      <xsl:if test="@uri">
+      <xsl:if test="aspect/doc_origin">
         <h2>Reusable Aspect</h2>
         <h3>uri</h3>
-          <h4>
-            <xsl:value-of select="@uri"/>
-          </h4>
+        <h4>
+           <xsl:value-of select="aspect/uri"/>
+        </h4>
         <h3>doc_origin</h3>
-          <h4>
-            <a href="{@doc_origin}" target="_blank">
-               <xsl:value-of select="@doc_origin"/>
-            </a>
-         </h4>
+        <h4>
+          <a href="{aspect/doc_origin}" target="_blank">
+             <xsl:value-of select="aspect/doc_origin"/>
+          </a>
+        </h4>
+        <h3>xpath</h3>
+        <h4>
+          <xsl:value-of select="aspect/xpath"/>
+        </h4>
+
       </xsl:if>
 
       <xsl:apply-templates select="desc"/>
