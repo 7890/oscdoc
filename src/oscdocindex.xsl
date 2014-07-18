@@ -26,7 +26,7 @@
           <table style="width:100%;">
             <tr>
               <td style="vertical-align:top;width:1px;">
-                <img width="300px" height="0px" src="../lib/1pixel.png"/>
+                <img width="300px" height="0px" src="res/1pixel.png"/>
 
                 <div class="inputDiv">
                   <h1 style="margin-bottom: 0;">
@@ -35,7 +35,20 @@
                   <a href="#" onfocus="javascript:showHelp();" style="outline: none;">Documentation</a>
                   <xsl:value-of select="concat($nbsp,$nbsp)"/>
                   <a href="#" onfocus="javascript:showMeta();" style="outline: none;">Metadata</a>
-                  <form action="#" id="form1" style="margin-top: 10px;"><input type="button" id="btn1" onclick="javascript:showAll();" value="Show All"/><input type="button" id="btn2" onclick="javascript:clearInput();" value="Clear Input"/><p>Search for Message Pattern:</p>Direction: <select id="opt1" name="direction"><option value="3">in+out</option><option value="1">in</option><option value="2">out</option></select><br/><input class="focused" type="text" id="input1" size="10" autocomplete="off"/></form>
+
+<form action="#" id="form1" style="margin-top: 10px;">
+<input type="button" id="btn1" onclick="javascript:showAll();" value="Show All"/>
+<input type="button" id="btn2" onclick="javascript:clearInput();" value="Clear Input"/>
+<p>Search for Message Pattern:</p>Direction: <select id="opt1" name="direction">
+<option value="3">in+out</option>
+<option value="1">in</option>
+<option value="2">out</option></select> Refs: <select id="opt2" name="ref">
+<option value="1">yes</option>
+<option value="0">no</option>
+<option value="2">only</option></select><br/>
+<input class="focused" type="text" id="input1" size="10" autocomplete="off"/>
+</form>
+
                 </div>
 
                 <div id="list" class="listDiv"/>
