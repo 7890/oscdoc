@@ -25,6 +25,14 @@ $(document).ready(function()
 		$('#input1').trigger(e);
 	});
 
+	$('#opt2').on('change',function(evt)
+	{
+		$('#input1').focus();
+		e = $.Event('keyup');
+		e.keyCode= 13; // enter
+		$('#input1').trigger(e);
+	});
+
 	$('#input1').keyup(function(evt){
 
 		setMessage("");
@@ -79,6 +87,9 @@ function handle_messages(message,text,dir)
 	var out='';
 	var match_count=0;
 
+
+	var refs=$('#opt2').val();
+
 	//case ruled out when no messages available at all
 	if(isNaN(message.length)) //can happen when only one message available
 	{
@@ -91,8 +102,23 @@ function handle_messages(message,text,dir)
 		var regexp=new RegExp(text,"g");
 		if(pattern.match(regexp))
 		{
-			out+='<a href="#'+unit_uri+'_'+pattern+'_'+typetag+'" onfocus="javascript:patternClicked('+0+','+direction_+');">'+pattern+' '+typetag+'</a><br/>';
-			match_count++
+			var aspect=message['aspect'];
+			var doc_origin;
+			if(aspect)
+			{
+				doc_origin=message['aspect']['doc_origin'];
+				if(doc_origin && (refs==1 || refs==2))
+				{
+					out+='[...] ';
+					out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
+					match_count++
+				}
+			}
+			else if (refs!=2)
+			{
+				out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
+				match_count++
+			}
 		}
 	}
 	else
@@ -106,11 +132,26 @@ function handle_messages(message,text,dir)
 			{
 				typetag="";
 			}
-				var regexp=new RegExp(text,"g");
-				if(pattern.match(regexp))
+			var regexp=new RegExp(text,"g");
+			if(pattern.match(regexp))
 			{
-				out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a><br/>';
-				match_count++
+				var aspect=message[i]['aspect'];
+				var doc_origin="";
+				if(aspect)
+				{
+					doc_origin=message[i]['aspect']['doc_origin'];
+					if(doc_origin && (refs==1 || refs==2))
+					{
+						out+='[...] ';
+						out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
+						match_count++
+					}
+				}
+				else if (refs!=2)
+				{
+					out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
+					match_count++
+				}
 			}
 		}
 	}
