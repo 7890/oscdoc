@@ -57,12 +57,12 @@ a=`"$VAL_SCRIPT" "$DEFINITION" 2>&1`
 ret=$?
 if [ "x$ret" != "x0" ]
 then
-	echo "NO" >&2
+	echo "NO ($DEFINITION)" >&2
 	echo "reason is given below:" >&2
 	echo "$a" >&2
 	exit 1 >&2
 else
-	echo "yes" >&2
+	echo "yes ($DEFINITION)" >&2
 fi
 
 xmlstarlet tr "$XSL1" \
