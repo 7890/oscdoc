@@ -26,8 +26,10 @@ info:
 install: 
 
 	@echo ""
-	@echo "installing oscdoc, osctxt0"
-	@echo "--------------------------"
+	@echo "installing oscdoc tools:"
+	@echo "------------------------"
+	@echo ""
+	@echo "oscdoc, osctxt0"
 	@echo ""
 	@echo "INSTALLDIR: $(INSTALLDIR)"
 	@echo ""
@@ -50,6 +52,7 @@ install:
 	cp $(LIB)/jquery-1.11.1.min.js $(RESSOURCESDIR)/
 	cp $(LIB)/ObjTree.js $(RESSOURCESDIR)/
 	cp $(LIB)/1pixel.png $(RESSOURCESDIR)/
+	cp $(LIB)/draft.png $(RESSOURCESDIR)/
 	cp $(CSS)/oscdoc.css $(RESSOURCESDIR)/
 	cp $(CSS)/xmlverbatim.css $(RESSOURCESDIR)/
 	cp $(SRC)/oscdoc.js $(RESSOURCESDIR)/
@@ -67,8 +70,8 @@ install:
 uninstall:
 
 	@echo ""
-	@echo "uninstalling oscdoc"
-	@echo "-------------------"
+	@echo "uninstalling oscdoc tools"
+	@echo "-------------------------"
 	@echo ""
 	@echo "INSTALLDIR: $(INSTALLDIR)"
 	@echo ""
