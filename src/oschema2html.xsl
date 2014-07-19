@@ -66,24 +66,31 @@
         <xsl:value-of select="$dir"/>
       </xsl:element>
 
-      <xsl:if test="aspect/doc_origin">
+<!--
+      <xsl:if test="//aspect">
+      </xsl:if>
+-->
+      <xsl:for-each select="aspect">
         <h2>Reusable Aspect</h2>
-        <h3>uri</h3>
-        <h4>
-           <xsl:value-of select="aspect/uri"/>
-        </h4>
+
+        <xsl:if test="uri">
+          <h3>uri</h3>
+          <h4>
+             <xsl:value-of select="uri"/>
+          </h4>
+        </xsl:if>   
+
         <h3>doc_origin</h3>
         <h4>
-          <a href="{aspect/doc_origin}" target="_blank">
-             <xsl:value-of select="aspect/doc_origin"/>
+          <a href="{doc_origin}" target="_blank">
+             <xsl:value-of select="doc_origin"/>
           </a>
         </h4>
         <h3>xpath</h3>
         <h4>
-          <xsl:value-of select="aspect/xpath"/>
+          <xsl:value-of select="xpath"/>
         </h4>
-
-      </xsl:if>
+      </xsl:for-each>
 
       <xsl:apply-templates select="desc"/>
 
@@ -367,7 +374,7 @@
     </xsl:choose>
   </xsl:template>
   <!-- =============================== -->  
-  <xsl:template match="@units">
+  <xsl:template match="@units[.!='']">
     <xsl:value-of select="concat(' (',.,')')"/>
   </xsl:template>
   <!-- =============================== -->
