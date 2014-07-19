@@ -99,7 +99,7 @@ function handle_messages(message,text,dir)
 		{
 			typetag="";
 		}
-		var regexp=new RegExp(text,"g");
+		var regexp=new RegExp(text,"gi");
 		if(pattern.match(regexp))
 		{
 			var aspect=message['aspect'];
@@ -132,7 +132,7 @@ function handle_messages(message,text,dir)
 			{
 				typetag="";
 			}
-			var regexp=new RegExp(text,"g");
+			var regexp=new RegExp(text,"gi");
 			if(pattern.match(regexp))
 			{
 				var aspect=message[i]['aspect'];
