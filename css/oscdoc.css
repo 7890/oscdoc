@@ -88,6 +88,8 @@ div.listDiv
 	margin: 0px;
 	padding: 0px;
 	background-color: #eff;
+	overflow-x: hidden;
+	white-space: nowrap;
 }
 
 div.outputDiv  
@@ -100,7 +102,9 @@ div.outputDiv
 	margin-bottom: 10px;
 	padding: 0px;
 	font: 12pt Helvetica, Arial;
-	background-color: #efefff;
+/*	background-color: #efefff;*/
+	background-image: url('draft.png');
+	background-repeat: no-repeat;
 }
 
 div.xmlDiv 
