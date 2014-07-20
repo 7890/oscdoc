@@ -29,7 +29,7 @@ install:
 	@echo "installing oscdoc tools:"
 	@echo "------------------------"
 	@echo ""
-	@echo "oscdoc, osctxt0"
+	@echo "oscdoc, osctxt0, oscdoc_aspect_map, oscdoc_aspect_graph"
 	@echo ""
 	@echo "INSTALLDIR: $(INSTALLDIR)"
 	@echo ""
@@ -59,6 +59,10 @@ install:
 
 	cp $(SRC)/osctxt0.sh $(INSTALLDIR)/osctxt0
 	cp $(SRC)/osctxt0.xsl $(INSTALLDIR)/
+
+	cp $(SRC)/oscdoc_aspect_map.sh $(INSTALLDIR)/oscdoc_aspect_map
+	cp $(SRC)/oscdoc_aspect_graph.sh $(INSTALLDIR)/oscdoc_aspect_graph
+	cp $(SRC)/rewrite_message_paths.xsl $(INSTALLDIR)/
 
 	@echo ""
 	@echo "use: oscdoc test_data/unit.xml /tmp"
@@ -93,6 +97,10 @@ uninstall:
 
 	rm -f $(INSTALLDIR)/osctxt0
 	rm -f $(INSTALLDIR)/osctxt0.xsl
+
+	rm -f $(INSTALLDIR)/oscdoc_aspect_map
+	rm -f $(INSTALLDIR)/oscdoc_aspect_graph
+	rm -f $(INSTALLDIR)/rewrite_message_paths.xsl
 
 	@echo ""
 	@echo "done."
