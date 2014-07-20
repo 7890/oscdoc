@@ -103,11 +103,9 @@ function handle_messages(message,text,dir)
 		if(pattern.match(regexp))
 		{
 			var aspect=message['aspect'];
-			var doc_origin;
 			if(aspect)
 			{
-				doc_origin=message['aspect']['doc_origin'];
-				if(doc_origin && (refs==1 || refs==2))
+				if(refs==1 || refs==2)
 				{
 					out+='[...] ';
 					out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
@@ -135,12 +133,10 @@ function handle_messages(message,text,dir)
 			var regexp=new RegExp(text,"gi");
 			if(pattern.match(regexp))
 			{
-				var aspect=message[i]['aspect'];
-				var doc_origin="";
+				var aspect =message[i]['aspect'];
 				if(aspect)
 				{
-					doc_origin=message[i]['aspect']['doc_origin'];
-					if(doc_origin && (refs==1 || refs==2))
+					if(refs==1 || refs==2)
 					{
 						out+='[...] ';
 						out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
