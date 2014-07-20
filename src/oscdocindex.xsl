@@ -2,6 +2,10 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:import href="xmlverbatim.xsl"/>
   <xsl:output method="html" indent="yes"/>
+
+  <xsl:param name="aspects_graph_tl" select="''"/>
+  <xsl:param name="aspects_graph_svg" select="''"/>
+
   <xsl:variable name="infinity" select="'&#8734;'"/>
   <xsl:variable name="nbsp" select="'&#xA0;'"/>
   <!-- //tb/1407 -->
@@ -139,6 +143,7 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
     <xsl:apply-templates select="author"/>
     <xsl:apply-templates select="url"/>
     <xsl:apply-templates select="desc"/>
+    <xsl:call-template name="meta_aspects"/>
     <xsl:apply-templates select="custom"/>
   </xsl:template>
   <!-- =========================== -->
@@ -187,6 +192,15 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
     <div class="xmlverb-default xmlDiv">
       <xsl:apply-templates select="." mode="xmlverb"/>
     </div>
+  </xsl:template>
+
+  <xsl:template name="meta_aspects">
+    <xsl:if test="$aspects_graph_tl != '' and $aspects_graph_svg != ''">
+      <h3>Aspects Graph</h3>
+         <a href="{$aspects_graph_svg}" target="_blank">
+            <img src="{$aspects_graph_tl}"/>
+         </a>
+    </xsl:if>
   </xsl:template>
 
 </xsl:stylesheet>
