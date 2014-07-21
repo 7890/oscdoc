@@ -43,9 +43,9 @@ install:
 	cp $(SRC)/oscdocindex.xsl $(INSTALLDIR)/
 
 	cp $(LIB)/xmlverbatim.xsl $(INSTALLDIR)/
-	cp $(LIB)/base64encoder.xsl $(INSTALLDIR)/
-	cp $(LIB)/base64decoder.xsl $(INSTALLDIR)/
-	cp $(LIB)/datamap.xml $(INSTALLDIR)/
+#	cp $(LIB)/base64encoder.xsl $(INSTALLDIR)/
+#	cp $(LIB)/base64decoder.xsl $(INSTALLDIR)/
+#	cp $(LIB)/datamap.xml $(INSTALLDIR)/
 
 	mkdir -p $(RESSOURCESDIR)
 
@@ -63,6 +63,7 @@ install:
 	cp $(SRC)/oscdoc_aspect_map.sh $(INSTALLDIR)/oscdoc_aspect_map
 	cp $(SRC)/oscdoc_aspect_graph.sh $(INSTALLDIR)/oscdoc_aspect_graph
 	cp $(SRC)/rewrite_message_paths.xsl $(INSTALLDIR)/
+	cp $(SRC)/merge_ext_ids.xsl $(INSTALLDIR)/
 
 	@echo ""
 	@echo "use: oscdoc test_data/unit.xml /tmp"
@@ -101,6 +102,7 @@ uninstall:
 	rm -f $(INSTALLDIR)/oscdoc_aspect_map
 	rm -f $(INSTALLDIR)/oscdoc_aspect_graph
 	rm -f $(INSTALLDIR)/rewrite_message_paths.xsl
+	rm -f $(INSTALLDIR)/merge_ext_ids.xsl
 
 	@echo ""
 	@echo "done."
