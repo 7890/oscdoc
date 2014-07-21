@@ -3,14 +3,12 @@
 
   <!-- //tb/1407 -->
   <xsl:import href="xmlverbatim.xsl"/>
-  <xsl:import href="base64encoder.xsl"/>
-  <xsl:import href="base64decoder.xsl"/>
 
   <xsl:output method="xml" omit-xml-declaration="yes" encoding="UTF-8" indent="yes"/>
 
   <xsl:param name="call_timestamp"/>
 
-  <xsl:variable name="oscdoc_version">140614.1</xsl:variable>
+  <xsl:variable name="oscdoc_version">140721.1</xsl:variable>
   <xsl:variable name="nl" select="'&#10;'"/>
   <xsl:variable name="nbsp" select="'&#xA0;'"/>
   <!-- <xsl:strip-space elements="*"/> -->
@@ -28,22 +26,18 @@
   <xsl:template match="message_in | message_out">
     <xsl:element name="msg">
       <xsl:copy-of select="@*"/>
-      <xsl:attribute name="id">
-
+   
+      <xsl:element name="id">
         <xsl:variable name="direction">
           <xsl:value-of select="substring-after(name(.),'_')"/>
         </xsl:variable>
 
         <xsl:variable name="id">
-          <xsl:call-template name="convertToBase64">
-            <xsl:with-param name="asciiString">
               <xsl:value-of select="concat(//meta/uri,';',@pattern,';',@typetag,';',$direction,';')"/>
-            </xsl:with-param>
-          </xsl:call-template>
         </xsl:variable>
 
-        <xsl:value-of select="translate($id,'+/=','-_.')"/>
-      </xsl:attribute>
+        <xsl:value-of select="$id"/>
+      </xsl:element>
 
       <xsl:variable name="tt">
         <xsl:apply-templates select="@typetag"/>
