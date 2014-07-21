@@ -5,8 +5,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 #oschema_validate is part of https://github.com/7890/oschema
 VAL_SCRIPT=oschema_validate
-XSL1=$DIR/oschema2html.xsl
-XSL2=$DIR/oscdocindex.xsl
+XSL1="$DIR"/oschema2html.xsl
+XSL2="$DIR"/oscdocindex.xsl
+XSL3="$DIR"/merge_ext_ids.xsl 
 RES_DIR=$DIR/oscdoc_res
 
 if [ $# -ne 2 ]
@@ -69,6 +70,13 @@ then
 	exit 1
 fi
 
+if [ ! -e "$XSL3" ]
+then
+	print_label "/!\\ stylesheet not found!"
+	echo "$XSL3" >&2
+	exit 1
+fi
+
 if [ ! -e "$RES_DIR" ]
 then
 
@@ -117,7 +125,7 @@ fi
 graph_svg="`mktemp`"
 graph_tl_png="`mktemp`"
 
-##
+##############################################
 #prepare copy of needed resources for html page
 mkdir -p "$OUTPUT_DIR"/res
 
@@ -144,30 +152,83 @@ fi
 
 print_label "creating xml_data.js..."
 
-cat "$DEFINITION" | sed "s/'/\\\'/g" > "$OUTPUT_DIR"/tmp.def
+#escape for js string ''
+tmp_file="`mktemp`"
+cat "$DEFINITION" | sed "s/'/\\\'/g" > "$tmp_file"
 
-(echo -n "xml='"; cat "$OUTPUT_DIR"/tmp.def; echo -n "'") \
+#put all on one line
+(echo -n "xml='"; cat "$tmp_file"; echo -n "'") \
 	| sed ':a;N;$!ba;s/\n/ /g' \
-	> "$OUTPUT_DIR"/xml_data.js
+	> "$OUTPUT_DIR"/res/xml_data.js
 
-rm -f "$OUTPUT_DIR"/tmp.def
+rm -rf "$tmp_file"
+
+######################################
+#needs better error checking
 
 print_label "creating divs.out... (this can take a while)"
 
-xmlstarlet tr "$XSL1" \
-"$DEFINITION" \
-	| xmlstarlet sel -t -m "//msg" -e div -a id \
-	-v "@id" \
-	-b -a class -o "hidden_content" -b -c "." -b -n \
+#create basic html chunks (msg)
+tmp_divs="`mktemp`"
+xmlstarlet tr "$XSL1" "$DEFINITION" \
+	| xmlstarlet sel -t -m "//msg" -c "." -n \
+	> "$tmp_divs"
+
+#create parseable xml file
+tmp_divs_xml="`mktemp`"
+(echo "<a>"; cat "$tmp_divs"; echo "</a>";) \
+	| xmlstarlet fo > "$tmp_divs_xml"
+
+#create list of external ids using base64 on prepared ($XSL1) concatenated fields
+#this is about 10-100 times faster than xsl base64
+tmp_ids="`mktemp`"
+cat "$tmp_divs_xml" | xmlstarlet sel -t -m "//msg/id" -v "." -n \
+	| sed -e 's/^[ \t]*//' | grep -v "^$" \
+	| while read line
+	do
+		echo -n "$line" | base64 -w 0 -
+		echo ""
+	done \
+	| sed 's/+/-/g' | sed 's/\//_/g' | sed 's/=/\./g' \
+	| sed -e 's/^[ \t]*//' | grep -v "^$" \
+	> "$tmp_ids"
+
+id_count=`cat "$tmp_ids" | wc -l`
+print_label "generated $id_count message ids."
+
+
+#create parseable xml file with ids
+tmp_ids_xml="`mktemp`"
+(
+echo "<a>"
+	cat "$tmp_ids" \
+	| while read line
+	do
+		echo "<idbase64>"$line"</idbase64>"
+	done
+echo "</a>"
+) \
+| xmlstarlet fo > "$tmp_ids_xml"
+
+rm -f "$tmp_ids"
+
+#total count of (could compare to #msg)
+#id_count=`cat "$OUTPUT_DIR"/divs.ids | wc -l`
+
+#merge messages with externally generated ids, do escaping in <pre>
+xmlstarlet tr "$XSL3" -s ids="$tmp_ids_xml" "$tmp_divs_xml" \
 	| sed 's/_LT_/</g' \
 	| sed 's/_LTE_/<=/g' \
 	| sed 's/_GT_/>/g' \
 	| sed 's/_GTE_/>=/g' \
 	| sed 's/_INF_/\&infin;/g' \
-	> "$OUTPUT_DIR"/divs.out
+> "$tmp_divs"
+
+rm -f "$tmp_ids_xml"
 
 print_label "creating index.out..."
 
+tmp_index="`mktemp`"
 if [ $GRAPH_SUCCESS -eq 1 ]
 then
 	#params relative to index.html
@@ -175,33 +236,34 @@ then
 	-s aspects_graph_tl="res/aspects_graph_tl.png" \
 	-s aspects_graph_svg="res/aspects_graph.svg" \
 	"$DEFINITION" \
-	> "$OUTPUT_DIR"/index.out
+	> "$tmp_index"
 else
 	#params relative to index.html
 	xmlstarlet tr "$XSL2" \
 	"$DEFINITION" \
-	> "$OUTPUT_DIR"/index.out
+	> "$tmp_index"
 fi
 
 print_label "creating index.html..."
 
-sed "/<!--DIVS-->/r "$OUTPUT_DIR"/divs.out" "$OUTPUT_DIR"/index.out > "$OUTPUT_DIR"/index.html
-#| sed '/<!--DIVS-->/r div_.out' -
+tmp_index_final="`mktemp`"
+sed "/<!--DIVS-->/r" "$tmp_divs" "$tmp_index" > "$tmp_index_final"
 
 print_label "cleaning up..."
 
-rm "$OUTPUT_DIR"/divs.out
-rm "$OUTPUT_DIR"/index.out
+mv "$tmp_index_final" "$OUTPUT_DIR/index.html"
+
+rm -f "$tmp_divs"
+rm -f "$tmp_index"
 
 print_label "copying ressources to $OUTPUT_DIR..."
 
 #copy other needed resources for html page and archive
-
-mv "$OUTPUT_DIR"/xml_data.js "$OUTPUT_DIR"/res
-
 cp "$RES_DIR"/* "$OUTPUT_DIR"/res
 cp "$DEFINITION" "$OUTPUT_DIR"/res/unit.orig.xml
 
 #echo "output:" >&2
 echo "$OUTPUT_DIR/index.html" >&2
 echo "oscdoc done." >&2
+
+exit 
