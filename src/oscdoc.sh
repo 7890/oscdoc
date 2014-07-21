@@ -152,7 +152,7 @@ cat "$DEFINITION" | sed "s/'/\\\'/g" > "$OUTPUT_DIR"/tmp.def
 
 rm -f "$OUTPUT_DIR"/tmp.def
 
-print_label "creating divs.out... (this can thake a while)"
+print_label "creating divs.out... (this can take a while)"
 
 xmlstarlet tr "$XSL1" \
 "$DEFINITION" \
