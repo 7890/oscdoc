@@ -96,11 +96,15 @@
 
       <xsl:if test="custom">
         <h2>Custom</h2>
+
+       <xsl:for-each select="custom">
         <div class="xmlverb-default xmlDiv">
-          <xsl:apply-templates select="custom" mode="xmlverb">
+          <xsl:apply-templates select="." mode="xmlverb">
             <xsl:with-param name="indent-elements" select="true()"/>
           </xsl:apply-templates>
         </div>
+       </xsl:for-each>
+
       </xsl:if>
 
       <xsl:if test="condition">
@@ -113,10 +117,10 @@
         <xsl:apply-templates select="target"/>
       </xsl:if>
 
-      <xsl:if test="param_i | param_h | param_f | param_d | param_s | param_b | param_X | param__">
+      <xsl:if test="param_i | param_h | param_f | param_d | param_s | param_b | param_c | param_X | param__">
         <h2>Parameters</h2>
         <ul>
-          <xsl:apply-templates select="param_i | param_h | param_f | param_d | param_s | param_b | param_X | param__"/>
+          <xsl:apply-templates select="param_i | param_h | param_f | param_d | param_s | param_b | param_c | param_X | param__"/>
         </ul>
       </xsl:if>
 
@@ -226,7 +230,7 @@
     </xsl:element>
   </xsl:template>
   <!-- =============================== -->
-  <xsl:template match="range_min_max[@lmin='[' and @lmax=']'] | param_i//range_min_max | param_h//range_min_max">
+  <xsl:template match="range_min_max[@lmin='[' and @lmax=']'] | param_i/range_min_max | param_h/range_min_max | param_c/range_min_max">
     <xsl:call-template name="format_range">
       <xsl:with-param name="descriptor" select="'[...]'"/>
       <xsl:with-param name="min" select="@min"/>
@@ -366,6 +370,7 @@
       <xsl:when test="name()='param_d'">d</xsl:when>
       <xsl:when test="name()='param_s'">s</xsl:when>
       <xsl:when test="name()='param_b'">b</xsl:when>
+      <xsl:when test="name()='param_c'">c</xsl:when>
       <xsl:when test="name()='param_X'">X</xsl:when>
       <xsl:when test="name()='param__'">_</xsl:when>
       <xsl:otherwise>
@@ -378,7 +383,7 @@
     <xsl:value-of select="concat(' (',.,')')"/>
   </xsl:template>
   <!-- =============================== -->
-  <xsl:template match="param_i | param_h | param_f | param_d | param_s | param_b | param_X | param__">
+  <xsl:template match="param_i | param_h | param_f | param_d | param_s | param_b | param_c | param_X | param__">
 
     <xsl:variable name="type">
       <xsl:call-template name="get_typetag_from_node_name"/>
@@ -391,13 +396,13 @@
 
     <xsl:apply-templates select="desc"/>
 
-    <xsl:if test="custom">
+     <xsl:for-each select="custom">
       <div class="xmlverb-default xmlDiv">
-        <xsl:apply-templates select="custom" mode="xmlverb">
+        <xsl:apply-templates select="." mode="xmlverb">
           <xsl:with-param name="indent-elements" select="true()"/>
         </xsl:apply-templates>
       </div>
-    </xsl:if>
+    </xsl:for-each>
 
     <xsl:apply-templates select="range_min_max | range_min_inf | range_inf_max | range_inf_inf"/>
   </xsl:template>
