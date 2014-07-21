@@ -188,20 +188,20 @@ echo -n "<aspect_map direction=\""$DIRECTION"\" mount_at=\"$MOUNT_AT\" uri=\"$UR
 
 #must process in/out seperately to avoid resulting doubles for some cases
 #get all aspects of given oschema instance
-referenced_origins_in="`mktemp`"
+referenced_origins="`mktemp`"
 cat "$DEFINITION" \
 	| xmlstarlet sel -t -m "//message_${DIRECTION}/aspect" \
 	-v "doc_origin" -o " " -v "../@pattern" -o " " \
 	-v "substring-after(name(..),'_')" -o " " -v "xpath" -n \
-> "$referenced_origins_in"
+> "$referenced_origins"
 
-cat "$referenced_origins_in" | grep -v "^$" > "$referenced_origins_in"_
-mv "$referenced_origins_in"_ "$referenced_origins_in"
+cat "$referenced_origins" | grep -v "^$" > "$referenced_origins"_
+mv "$referenced_origins"_ "$referenced_origins"
 
 #| sed -e 's/^[ \t]*//'
-#cat "$referenced_origins_in"
+#cat "$referenced_origins"
 
-COUNT=`cat "$referenced_origins_in" | wc -l`
+COUNT=`cat "$referenced_origins" | wc -l`
 #when no references found, no children
 if [ $COUNT -eq 0 ]
 then
@@ -213,7 +213,7 @@ else
 fi
 
 #recursively process every aspect
-cat "$referenced_origins_in" \
+cat "$referenced_origins" \
 	| while read line
 	do
 		origin=`echo "$line" | cut -d" " -f1`
@@ -228,7 +228,7 @@ cat "$referenced_origins_in" \
 		then
 			print_label "/!\\ error in recursive call in oscdoc_aspect_map"
 			#echo "$SELF" "$fetch_tmp" "$MOUNT_AT" "$XPATH" "$DIRECTION" >&2
-			rm -f "$referenced_origins_in"
+			rm -f "$referenced_origins"
 			#http://stackoverflow.com/questions/18359777/bash-exit-doesnt-exit
 			exit 1
 		fi
@@ -241,7 +241,7 @@ then
 	echo "</aspect_map>"
 fi
 
-rm -f "$referenced_origins_in"
+rm -f "$referenced_origins"
 
 echo "oscdoc_aspect_map done." >&2
 #("$DEFINITION" "$MOUNT_AT" "$XPATH" "$DIRECTION")
