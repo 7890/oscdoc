@@ -80,6 +80,7 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
                     <li><strong>d</strong>: double, signed 64 bit float (8 bytes), -1.797693E+308 - 1.797693E+308 (smallest: 2.225074E-308)</li>
                     <li><strong>s</strong>: string</li>
                     <li><strong>b</strong>: blob</li>
+                    <li><strong>c</strong>: char, unsigned 8-bit char, decimal 0-255</li>
                     <li><strong>X</strong>: unknown / custom parameter type. arbitrary content</li>
                     <li><strong>_</strong>: last expressed param in typetag can occur 0 to n times</li>
                     <li><strong>*</strong>: anything (also: handled by reusable aspect)</li>
@@ -142,8 +143,8 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
     </h4>
     <xsl:apply-templates select="author"/>
     <xsl:apply-templates select="url"/>
-    <xsl:apply-templates select="desc"/>
     <xsl:call-template name="meta_aspects"/>
+    <xsl:apply-templates select="desc"/>
     <xsl:apply-templates select="custom"/>
   </xsl:template>
   <!-- =========================== -->
