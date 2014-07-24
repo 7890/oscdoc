@@ -14,7 +14,7 @@ XSL3="$XSL_DIR"/merge_ext_ids.xsl
 
 RES_DIR="$DIR"/oscdoc_res
 
-print_label()
+function print_label()
 {
 	echo ".------" >&2
 	echo "| $1" >&2
@@ -57,7 +57,7 @@ then
         exit 1
 fi
 
-checkAvail()
+function checkAvail()
 {
 	which "$1" >/dev/null 2>&1
 	ret=$?
@@ -69,7 +69,7 @@ checkAvail()
 	fi
 }
 
-validate()
+function validate()
 {
 	echo -n "checking if XML file is valid... " >&2
 	DEFINITION="$1"
@@ -88,12 +88,12 @@ validate()
 }
 
 #1: tag 2: file to enclose
-enclose_xml()
+function enclose_xml()
 {
 	(echo "<$1>"; cat "$2"; echo "</$1>";)
 }
 
-remove_trailing_and_empty()
+function remove_trailing_and_empty()
 {
 	while read line
 	do
@@ -104,7 +104,7 @@ remove_trailing_and_empty()
 #translate a base64 encoded string so it can be used in attributes
 #+/=
 #-_.
-translate_base64_to_attribute()
+function translate_base64_to_attribute()
 {
 	while read line
 	do
@@ -112,7 +112,7 @@ translate_base64_to_attribute()
 	done
 }
 
-replace_math_placeholders()
+function replace_math_placeholders()
 {
 	while read line
 	do
@@ -123,4 +123,52 @@ replace_math_placeholders()
 		| sed 's/_GTE_/>=/g' \
 		| sed 's/_INF_/\&infin;/g'
 	done
+}
+
+function cat_local_or_remote_file()
+{
+	DEFINITION="$1"
+
+	#test if url to download
+	doc_origin=""
+	remote_test="`echo "$DEFINITION" | grep '^http.*'`"
+	ret=$?
+	if [ $ret -eq 0 ]
+	then
+		doc_origin="$DEFINITION"
+		print_label "fetching $doc_origin"
+
+		fetch_tmp="`mktemp`"
+		wget -q -O "$fetch_tmp" "$doc_origin"
+		ret=$?
+		if [ $ret -ne 0 ]
+		then
+			print_label "/!\\ error wgetting remote file $doc_origin"
+			rm -f "$fetch_tmp"
+			return 1
+		fi
+
+		cat "$fetch_tmp"
+		rm -f "$fetch_tmp"
+		return 0
+	else
+		#rewrite file:// uris
+		file_uri_test="`echo \"$DEFINITION\" | grep '^file://.*'`"
+		ret=$?
+		if [ $ret -eq 0 ]
+		then
+			file="`echo \"$DEFINITION\" | cut -d"/" -f3-`"
+			DEFINITION="$file"
+		fi
+
+		if [ ! -e "$DEFINITION" ]
+		then
+			print_label "/!\\ XML file not found!"
+			echo "$DEFINITION" >&2
+			return 1
+		fi
+
+		cat "$DEFINITION"
+		return 0
+	fi
 }
