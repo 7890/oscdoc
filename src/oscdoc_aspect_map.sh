@@ -21,7 +21,10 @@ then
 fi
 
 SELF=oscdoc_aspect_map
-XSL1="$DIR"/rewrite_message_paths.xsl
+
+XSLDIR="$DIR"/oscdoc_xsl
+
+XSL1="$XSLDIR"/rewrite_message_paths.xsl
 
 #after install oschema_validate is in search path
 VAL_SCRIPT=oschema_validate

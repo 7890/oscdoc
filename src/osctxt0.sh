@@ -4,7 +4,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 #oschema_validate is part of https://github.com/7890/oschema
 VAL_SCRIPT=oschema_validate
-XSL1=$DIR/osctxt0.xsl
+
+XSLDIR="$DIR"/oscdoc_xsl
+
+XSL1=$XSLDIR/osctxt0.xsl
 
 if [ $# -ne 1 ]
 then
