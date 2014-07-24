@@ -42,7 +42,8 @@
 
 <form action="#" id="form1" style="margin-top: 10px;">
 <input type="button" id="btn1" onclick="javascript:showAll();" value="Show All"/>
-<input type="button" id="btn2" onclick="javascript:clearInput();" value="Clear Input"/>
+<input type="button" id="btn2" onclick="javascript:useSelected();" value="Use Last"/>
+<input type="button" id="btn3" onclick="javascript:clearInput();" value="Clear Input"/>
 <p>Search for Message Pattern:</p>Direction: <select id="opt1" name="direction">
 <option value="3">in+out</option>
 <option value="1">in</option>

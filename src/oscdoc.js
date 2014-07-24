@@ -5,6 +5,8 @@ var xotree = new XML.ObjTree();
 xotree.attr_prefix='@';
 var root;
 
+var last_selected_pattern='';
+
 function jq( myid ) 
 {
 	return myid.replace( /(:|\.|\[|\])/g, "\\$1" );
@@ -192,6 +194,8 @@ function patternClicked(index,dir)
 	}
 	generated_id+=';'+dir_+';';
 
+	last_selected_pattern=message['@pattern'];
+
 	//alert(btoa(generated_id));
 	//alert(atob(btoa(generated_id)));
 
@@ -265,6 +269,21 @@ function clearInput()
 	$('#input1').val("");
 	$('#input1').focus();
 	setMessage("");
+}
+
+function useSelected()
+{
+
+var s=last_selected_pattern;
+//s = s.substring(0, s.indexOf('/'));
+
+	$('#input1').val(s);
+	$('#input1').focus();
+	setMessage("");
+
+	e = $.Event('keyup');
+	e.keyCode= 13; // enter
+	$('#input1').trigger(e);
 }
 
 function showAll()
