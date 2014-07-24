@@ -41,9 +41,12 @@
                   <a href="#" onclick= "javascript:showMeta();" onfocus="javascript:showMeta();" style="outline: none;">Metadata</a>
 
 <form action="#" id="form1" style="margin-top: 10px;">
-<input type="button" id="btn1" onclick="javascript:showAll();" value="Show All"/>
-<input type="button" id="btn2" onclick="javascript:useSelected();" value="Use Last"/>
-<input type="button" id="btn3" onclick="javascript:clearInput();" value="Clear Input"/>
+<input type="button" id="btn1" onclick="javascript:showAll();"    value="Show All"/>
+<input type="button" id="btn5" onclick="javascript:clearInput();" value="Clear Input"/><br/>
+<input type="button" id="btn2" onclick="javascript:recallLastSelected();" value="Recall"/>
+<input type="button" id="btn3" onclick="javascript:reduceLastSelected();" value="Reduce"/>
+<input type="button" id="btn4" onclick="javascript:useLeafLastSelected();" value="Leaf"/>
+
 <p>Search for Message Pattern:</p>Direction: <select id="opt1" name="direction">
 <option value="3">in+out</option>
 <option value="1">in</option>
@@ -51,7 +54,7 @@
 <option value="1">yes</option>
 <option value="0">no</option>
 <option value="2">only</option></select><br/>
-<input class="focused" type="text" id="input1" size="10" autocomplete="off"/>
+<textarea class="focused" rows="1" cols="24" wrap="soft" id="input1"/>
 </form>
 
                 </div>

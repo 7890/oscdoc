@@ -271,11 +271,44 @@ function clearInput()
 	setMessage("");
 }
 
-function useSelected()
+function recallLastSelected()
 {
+	var s=last_selected_pattern;
 
-var s=last_selected_pattern;
-//s = s.substring(0, s.indexOf('/'));
+	$('#input1').val(s);
+	$('#input1').focus();
+	setMessage("");
+
+	e = $.Event('keyup');
+	e.keyCode= 13; // enter
+	$('#input1').trigger(e);
+}
+
+function useLeafLastSelected()
+{
+	//http://stackoverflow.com/questions/8376525/get-value-of-a-string-after-a-slash-in-javascript
+	var parts=last_selected_pattern.split("/");
+	var s='/'+parts[parts.length - 1]; // Or parts.pop();
+
+	$('#input1').val(s);
+	$('#input1').focus();
+	setMessage("");
+
+	e = $.Event('keyup');
+	e.keyCode= 13; // enter
+	$('#input1').trigger(e);
+}
+
+function reduceLastSelected()
+{
+var n = last_selected_pattern.lastIndexOf('/');
+var s = last_selected_pattern.substring(0,n);
+
+
+//	var parts=last_selected_pattern.split("/");
+//	var s='/'+parts[parts.length - 2]; // Or parts.pop();
+
+	last_selected_pattern=s;
 
 	$('#input1').val(s);
 	$('#input1').focus();
