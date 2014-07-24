@@ -36,9 +36,9 @@
                   <h1 style="margin-bottom: 0;">
                     <xsl:value-of select="concat($name,' OSC API')"/>
                   </h1>
-                  <a href="#" onfocus="javascript:showHelp();" style="outline: none;">Documentation</a>
+                  <a href="#" onclick="javascript:showHelp();" onfocus="javascript:showHelp();" style="outline: none;">Documentation</a>
                   <xsl:value-of select="concat($nbsp,$nbsp)"/>
-                  <a href="#" onfocus="javascript:showMeta();" style="outline: none;">Metadata</a>
+                  <a href="#" onclick= "javascript:showMeta();" onfocus="javascript:showMeta();" style="outline: none;">Metadata</a>
 
 <form action="#" id="form1" style="margin-top: 10px;">
 <input type="button" id="btn1" onclick="javascript:showAll();" value="Show All"/>
