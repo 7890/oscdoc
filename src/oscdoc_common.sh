@@ -111,10 +111,7 @@ function enclose_xml()
 
 function remove_trailing_and_empty()
 {
-	while read line
-	do
-		echo "$line" | sed -e 's/^[ \t]*//' | grep -v "^$"
-	done
+	sed -e 's/^[ \t]*//' | grep -v "^$"
 }
 
 #translate a base64 encoded string so it can be used in attributes
@@ -122,23 +119,16 @@ function remove_trailing_and_empty()
 #-_.
 function translate_base64_to_attribute()
 {
-	while read line
-	do
-		echo "$line" | sed 's/+/-/g' | sed 's/\//_/g' | sed 's/=/\./g'
-	done
+	sed 's/+/-/g' | sed 's/\//_/g' | sed 's/=/\./g'
 }
 
 function replace_math_placeholders()
 {
-	while read line
-	do
-		echo "$line" \
-		| sed 's/_LT_/</g' \
-		| sed 's/_LTE_/<=/g' \
-		| sed 's/_GT_/>/g' \
-		| sed 's/_GTE_/>=/g' \
-		| sed 's/_INF_/\&infin;/g'
-	done
+	sed 's/_LT_/</g' \
+	| sed 's/_LTE_/<=/g' \
+	| sed 's/_GT_/>/g' \
+	| sed 's/_GTE_/>=/g' \
+	| sed 's/_INF_/\&infin;/g'
 }
 
 function cat_local_or_remote_file()
