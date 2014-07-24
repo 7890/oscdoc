@@ -40,6 +40,7 @@ install:
 	@echo ""
 
 	cp $(SRC)/oscdoc.sh $(INSTALLDIR)/oscdoc
+	cp $(SRC)/oscdoc_common.sh $(INSTALLDIR)/oscdoc_common.sh
 
 	mkdir -p $(XSLDIR)
 
@@ -66,7 +67,7 @@ install:
 
 	cp $(SRC)/oscdoc_aspect_map.sh $(INSTALLDIR)/oscdoc_aspect_map
 	cp $(SRC)/oscdoc_aspect_graph.sh $(INSTALLDIR)/oscdoc_aspect_graph
-	cp $(SRC)/rewrite_message_paths.xsl $(XSLDIR)/
+#	cp $(SRC)/rewrite_message_paths.xsl $(XSLDIR)/
 	cp $(SRC)/merge_ext_ids.xsl $(XSLDIR)/
 
 	@echo ""
@@ -90,6 +91,7 @@ uninstall:
 	@echo ""
 
 	rm -f $(INSTALLDIR)/oscdoc
+	rm -f $(INSTALLDIR)/oscdoc_common.sh
 
 #legacy uninstall
 	rm -f $(INSTALLDIR)/oschema2html.xsl

@@ -7,12 +7,7 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-print_label()
-{
-	echo ".------" >&2
-	echo "| $1" >&2
-	echo "\______" >&2
-}
+. "$DIR"/oscdoc_common.sh
 
 if [ $# -lt 1 ]
 then
@@ -22,12 +17,11 @@ fi
 
 SELF=oscdoc_aspect_map
 
-XSLDIR="$DIR"/oscdoc_xsl
-
-XSL1="$XSLDIR"/rewrite_message_paths.xsl
+#XSLDIR="$DIR"/oscdoc_xsl
+#XSL1="$XSLDIR"/rewrite_message_paths.xsl
 
 #after install oschema_validate is in search path
-VAL_SCRIPT=oschema_validate
+#VAL_SCRIPT=oschema_validate
 
 #echo "called with args $@" >&2
 
@@ -85,27 +79,9 @@ then
 	exit
 fi
 
-checkAvail()
-{
-	which "$1" >/dev/null 2>&1
-	ret=$?
-	if [ $ret -ne 0 ]
-	then
-		print_label "/!\\ tool \"$1\" not found. please install"
-		echo "note: oschema_validate is part of https://github.com/7890/oschema"
-		exit 1
-	fi
-}
-
 for tool in {xmlstarlet,sed,diff,bc,wget,oschema_validate,oscdoc_aspect_map}; \
 	do checkAvail "$tool"; done
 
-if [ ! -e "$XSL1" ]
-then
-	print_label "/!\\ stylesheet not found!"
-	echo "$XSL1" >&2
-	exit 1
-fi
 
 #test if url to download
 doc_origin=""

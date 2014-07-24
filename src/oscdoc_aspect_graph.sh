@@ -4,6 +4,8 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+. "$DIR"/oscdoc_common.sh
+
 if [ $# -lt 2 ]
 then
 	echo "need params: <oscdoc aspect map XML file> <outfile name.svg> (<create thumbnail: 1>)" >&2
@@ -22,25 +24,6 @@ then
 fi
 
 THUMBNAIL_CMD="convert \"$OUTPUT_FILE\" -scale 800x \"$THUMBNAIL\""
-
-print_label()
-{
-	echo ".------" >&2
-	echo "| $1" >&2
-	echo "\______" >&2
-}
-
-checkAvail()
-{
-	which "$1" >/dev/null 2>&1
-	ret=$?
-	if [ $ret -ne 0 ]
-	then
-		print_label "/!\\ tool \"$1\" not found. please install"
-		echo "note: oschema_validate is part of https://github.com/7890/oschema" >&2
-		exit 1
-	fi
-}
 
 for tool in {xmlstarlet,sort,uniq,sed,dot,convert}; \
 	do checkAvail "$tool"; done

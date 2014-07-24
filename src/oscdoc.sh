@@ -3,15 +3,7 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-#oschema_validate is part of https://github.com/7890/oschema
-VAL_SCRIPT=oschema_validate
-
-XSLDIR="$DIR"/oscdoc_xsl
-RES_DIR=$DIR/oscdoc_res
-
-XSL1="$XSLDIR"/oschema2html.xsl
-XSL2="$XSLDIR"/oscdocindex.xsl
-XSL3="$XSLDIR"/merge_ext_ids.xsl 
+. "$DIR"/oscdoc_common.sh
 
 if [ $# -ne 2 ]
 then
@@ -21,25 +13,6 @@ fi
 
 DEFINITION="$1"
 OUTPUT_DIR="$2"
-
-print_label()
-{
-	echo ".------" >&2
-	echo "| $1" >&2
-	echo "\______" >&2
-}
-
-checkAvail()
-{
-	which "$1" >/dev/null 2>&1
-	ret=$?
-	if [ $ret -ne 0 ]
-	then
-		print_label "tool \"$1\" not found. please install"
-		print_label "note: oschema_validate is part of https://github.com/7890/oschema"
-		exit 1
-	fi
-}
 
 for tool in {xmlstarlet,sed,diff,bc,oschema_validate,oscdoc_aspect_map,dot,convert,oscdoc_aspect_graph}; \
 	do checkAvail "$tool"; done
@@ -59,27 +32,6 @@ then
 	exit 1
 fi
 
-if [ ! -e "$XSL1" ]
-then
-	print_label "/!\\ stylesheet not found!"
-	echo "$XSL1" >&2
-	exit 1
-fi
-
-if [ ! -e "$XSL2" ]
-then
-	print_label "/!\\ stylesheet not found!"
-	echo "$XSL2" >&2
-	exit 1
-fi
-
-if [ ! -e "$XSL3" ]
-then
-	print_label "/!\\ stylesheet not found!"
-	echo "$XSL3" >&2
-	exit 1
-fi
-
 if [ ! -e "$RES_DIR" ]
 then
 
@@ -88,19 +40,7 @@ then
 	exit 1
 fi
 
-echo -n "checking if XML file is valid... " >&2
-
-a=`"$VAL_SCRIPT" "$DEFINITION" 2>&1`
-ret=$?
-if [ $ret -ne 0 ]
-then
-	echo "NO ($DEFINITION)" >&2
-	echo "reason is given below:" >&2
-	echo "$a" >&2
-	exit 1
-else
-	echo "yes ("$DEFINITION")" >&2
-fi
+validate "$DEFINITION"
 
 #assemble referenced asspects to generate a graph showing the
 #"mount points"
