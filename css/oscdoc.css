@@ -47,9 +47,9 @@ body
 
 ul 
 {
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
 }
 
 ul li 
@@ -57,7 +57,7 @@ ul li
 /*    background-image: url("1x30.png");*/
 /*    background-repeat: no-repeat;*/
 /*    background-position: 0px 5px;*/
-    padding-left: 30px;
+	padding-left: 30px;
 }
 
 ul li.double 
@@ -65,10 +65,10 @@ ul li.double
 /*    background-image: url("1x30.png");*/
 /*    background-repeat: no-repeat;*/
 /*    background-position: 0px 5px;*/
-    padding-left: 60px;
+	padding-left: 60px;
 }
 
-div.inputDiv  
+div.inputDiv
 {
 	float: left;
 	top: 0px;
@@ -80,7 +80,7 @@ div.inputDiv
 	background-color: #eff;
 }
 
-div.listDiv  
+div.listDiv
 {
 	float: left;
 	width: 100%;
@@ -92,7 +92,7 @@ div.listDiv
 	white-space: nowrap;
 }
 
-div.outputDiv  
+div.outputDiv
 {
 	float: left;
 	width: 100%;
@@ -123,7 +123,7 @@ div.ascii
 }
 .focused
 {
-	font-weight: bold;
+/*	font-weight: bold;*/
 	background: #aa1111;
 	color: #fff!important;
 	outline: 0;
@@ -143,20 +143,20 @@ div.ascii
 
 table.tstyle
 {
-margin-left: 90px;
-border-width: 0 0 1px 1px;
-border-spacing: 0;
-border-collapse: collapse;
-border-style: solid;
+	margin-left: 90px;
+	border-width: 0 0 1px 1px;
+	border-spacing: 0;
+	border-collapse: collapse;
+	border-style: solid;
 }
  
-.tstyle td, .mystyle th
+.tstyle td, .tstyle th
 {
-white-space: nowrap;
-margin: 0;
-padding: 4px;
-border-width: 1px 1px 0 0;
-border-style: solid;
+	white-space: nowrap;
+	margin: 0;
+	padding: 4px;
+	border-width: 1px 1px 0 0;
+	border-style: solid;
 }
 
 span.value
