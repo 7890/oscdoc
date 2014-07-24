@@ -34,7 +34,6 @@ fi
 
 if [ ! -e "$RES_DIR" ]
 then
-
 	print_label "/!\\ resources dir not found!"
 	echo "$RES_DIR" >&2
 	exit 1
@@ -109,7 +108,7 @@ rm -rf "$tmp_file"
 ######################################
 #needs better error checking
 
-print_label "creating divs.out... (this can take a while)"
+print_label "creating HTML divs... (this can take a while)"
 
 #create basic html chunks (msg)
 tmp_divs="`mktemp`"
@@ -119,37 +118,39 @@ xmlstarlet tr "$XSL1" "$DEFINITION" \
 
 #create parseable xml file
 tmp_divs_xml="`mktemp`"
-(echo "<a>"; cat "$tmp_divs"; echo "</a>";) \
+enclose_xml a "$tmp_divs" \
 	| xmlstarlet fo > "$tmp_divs_xml"
+
+
+#	| sed -e 's/^[ \t]*//' | grep -v "^$" \
 
 #create list of external ids using base64 on prepared ($XSL1) concatenated fields
 #this is about 10-100 times faster than xsl base64
 tmp_ids="`mktemp`"
 cat "$tmp_divs_xml" | xmlstarlet sel -t -m "//msg/id" -v "." -n \
-	| sed -e 's/^[ \t]*//' | grep -v "^$" \
+        | remove_trailing_and_empty \
 	| while read line
 	do
 		echo -n "$line" | base64 -w 0 -
 		echo ""
 	done \
-	| sed 's/+/-/g' | sed 's/\//_/g' | sed 's/=/\./g' \
-	| sed -e 's/^[ \t]*//' | grep -v "^$" \
+	| translate_base64_to_attribute \
+        | remove_trailing_and_empty \
 	> "$tmp_ids"
 
 id_count=`cat "$tmp_ids" | wc -l`
 print_label "generated $id_count message ids."
 
-
 #create parseable xml file with ids
 tmp_ids_xml="`mktemp`"
 (
-echo "<a>"
+	echo "<a>"
 	cat "$tmp_ids" \
 	| while read line
 	do
 		echo "<idbase64>"$line"</idbase64>"
 	done
-echo "</a>"
+	echo "</a>"
 ) \
 | xmlstarlet fo > "$tmp_ids_xml"
 
@@ -160,11 +161,7 @@ rm -f "$tmp_ids"
 
 #merge messages with externally generated ids, do escaping in <pre>
 xmlstarlet tr "$XSL3" -s ids="$tmp_ids_xml" "$tmp_divs_xml" \
-	| sed 's/_LT_/</g' \
-	| sed 's/_LTE_/<=/g' \
-	| sed 's/_GT_/>/g' \
-	| sed 's/_GTE_/>=/g' \
-	| sed 's/_INF_/\&infin;/g' \
+	| replace_math_placeholders \
 > "$tmp_divs"
 
 rm -f "$tmp_ids_xml"

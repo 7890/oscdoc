@@ -86,3 +86,41 @@ validate()
 		echo "yes ("$DEFINITION")" >&2
 	fi
 }
+
+#1: tag 2: file to enclose
+enclose_xml()
+{
+	(echo "<$1>"; cat "$2"; echo "</$1>";)
+}
+
+remove_trailing_and_empty()
+{
+	while read line
+	do
+		echo "$line" | sed -e 's/^[ \t]*//' | grep -v "^$"
+	done
+}
+
+#translate a base64 encoded string so it can be used in attributes
+#+/=
+#-_.
+translate_base64_to_attribute()
+{
+	while read line
+	do
+		echo "$line" | sed 's/+/-/g' | sed 's/\//_/g' | sed 's/=/\./g'
+	done
+}
+
+replace_math_placeholders()
+{
+	while read line
+	do
+		echo "$line" \
+		| sed 's/_LT_/</g' \
+		| sed 's/_LTE_/<=/g' \
+		| sed 's/_GT_/>/g' \
+		| sed 's/_GTE_/>=/g' \
+		| sed 's/_INF_/\&infin;/g'
+	done
+}

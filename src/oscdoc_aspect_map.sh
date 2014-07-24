@@ -53,8 +53,6 @@ fi
 #(calling this script with just an instance document as argument)
 if [ x"$DIRECTION" = x ]
 then
-
-
 	echo "<root>"
 		#all message_in aspects
 		DIRECTION="in"
@@ -82,14 +80,12 @@ fi
 for tool in {xmlstarlet,sed,diff,bc,wget,oschema_validate,oscdoc_aspect_map}; \
 	do checkAvail "$tool"; done
 
-
 #test if url to download
 doc_origin=""
 remote_test="`echo "$DEFINITION" | grep '^http.*'`"
 ret=$?
 if [ $ret -eq 0 ]
 then
-
 	doc_origin="$DEFINITION"
 	print_label "fetching $doc_origin"
 
