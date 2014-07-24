@@ -19,8 +19,11 @@
         <xsl:attribute name="id">
           <xsl:value-of select="$idbase64"/>
         </xsl:attribute>
-
+<!--
         <xsl:attribute name="class">hidden_content</xsl:attribute>
+	do not use a class so it can be hidden while css not yet loaded
+-->
+        <xsl:attribute name="style">display: none;</xsl:attribute>
 
         <xsl:copy>
           <xsl:apply-templates select="@* | node()"/>

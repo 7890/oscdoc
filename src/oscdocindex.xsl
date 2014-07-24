@@ -109,13 +109,13 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
         <!-- end div outterDiv -->
         <script type="text/javascript" src="res/oscdoc.js"/>
 
-        <div id="__help" class="hidden_content">
+        <div id="__help" style="display: none;">
           <xsl:if test="doc">
             <xsl:copy-of select="doc"/>
           </xsl:if>
         </div>
 
-        <div id="__meta" class="hidden_content">
+        <div id="__meta" style="display: none;">
           <xsl:apply-templates select="meta"/>
         </div>
         <!-- ================================================ -->
