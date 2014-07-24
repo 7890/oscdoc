@@ -144,6 +144,7 @@ function replace_math_placeholders()
 function cat_local_or_remote_file()
 {
 	DEFINITION="$1"
+	RE_CACHE="$2"
 
 	#test if url to download
 	doc_origin=""
@@ -160,9 +161,16 @@ function cat_local_or_remote_file()
 		#echo "$cache_hash" >&2
 		#ls -1 "$CACHE_DIR"/"$cache_hash" >&2
 
+		#remove from cache to re-cache
+		if [ x"$RE_CACHE" != "x" ]
+		then
+			rm -f "$CACHE_DIR"/"$cache_hash"
+		fi
+
 		if [ -e "$CACHE_DIR"/"$cache_hash" ]
 		then
 			print_label "found $doc_origin in cache"
+			echo "$CACHE_DIR"/"$cache_hash" >&2
 		else
 			print_label "fetching $doc_origin"
 
@@ -206,12 +214,19 @@ function cat_local_or_remote_file()
 		#print_label "cache hash for $DEFINITION:"
 		#echo "$cache_hash" >&2
 
+		#remove from cache to re-cache
+		if [ x"$RE_CACHE" != "x" ]
+		then
+			rm -f "$CACHE_DIR"/"$cache_hash"
+		fi
+
 		if [ -e "$CACHE_DIR"/"$cache_hash" ]
 		then
-			print_label "found $DEFINITION in cache."
+			print_label "found $DEFINITION in cache"
+			echo "$CACHE_DIR"/"$cache_hash" >&2
 		else
 			validate "$DEFINITION"
-			print_label "putting $DEFINITION to cache."
+			print_label "putting $DEFINITION to cache"
 			cp "$DEFINITION" "$CACHE_DIR"/"$cache_hash"
 		fi
 

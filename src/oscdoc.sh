@@ -25,7 +25,8 @@ function clean_up1
 }
 trap clean_up1 EXIT 
 
-cat_local_or_remote_file "$DEFINITION" > "$tmp_def"
+#re-cache/re-download/re-validate given file anytime
+cat_local_or_remote_file "$DEFINITION" 1 > "$tmp_def"
 ret=$?
 if [ $ret -eq 0 ]
 then
