@@ -108,13 +108,13 @@ function handle_messages(message,text,dir)
 				if(refs==1 || refs==2)
 				{
 					out+='[...] ';
-					out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
+					out+='<a href="#" onclick="javascript:patternClicked('+i+','+direction_+');" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
 					match_count++
 				}
 			}
 			else if (refs!=2)
 			{
-				out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
+				out+='<a href="#" onclick="javascript:patternClicked('+i+','+direction_+');" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
 				match_count++
 			}
 		}
@@ -139,13 +139,13 @@ function handle_messages(message,text,dir)
 					if(refs==1 || refs==2)
 					{
 						out+='[...] ';
-						out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
+						out+='<a href="#" onclick="javascript:patternClicked('+i+','+direction_+');" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
 						match_count++
 					}
 				}
 				else if (refs!=2)
 				{
-					out+='<a href="#'+unit_uri+';'+pattern+';'+typetag+';" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
+					out+='<a href="#" onclick="javascript:patternClicked('+i+','+direction_+');" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
 					match_count++
 				}
 			}
