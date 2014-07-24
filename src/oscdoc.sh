@@ -17,11 +17,21 @@ OUTPUT_DIR="$2"
 for tool in {xmlstarlet,sed,diff,bc,oschema_validate,oscdoc_aspect_map,dot,convert,oscdoc_aspect_graph}; \
 	do checkAvail "$tool"; done
 
+tmp_def="`mktemp`"
+function clean_up1 
+{
+	#clean up
+	rm -f "$tmp_def"
+}
+trap clean_up1 EXIT 
 
-if [ ! -e "$DEFINITION" ]
+cat_local_or_remote_file "$DEFINITION" > "$tmp_def"
+ret=$?
+if [ $ret -eq 0 ]
 then
-	print_label "/!\\ XML file not found!"
-	echo "$DEFINITION" >&2
+	DEFINITION="$tmp_def"
+else
+	print_label "/!\\ could not use given file ($DEFINITION)!"
 	exit 1
 fi
 
@@ -29,13 +39,6 @@ if [ ! -e "$OUTPUT_DIR" ]
 then
 	print_label "/!\\ output directory does not exist!"
 	echo "$OUTPUT_DIR" >&2
-	exit 1
-fi
-
-if [ ! -e "$RES_DIR" ]
-then
-	print_label "/!\\ resources dir not found!"
-	echo "$RES_DIR" >&2
 	exit 1
 fi
 
@@ -66,7 +69,6 @@ fi
 
 graph_svg="`mktemp`"
 graph_tl_png="`mktemp`"
-
 ##############################################
 #prepare copy of needed resources for html page
 mkdir -p "$OUTPUT_DIR"/res
@@ -121,9 +123,6 @@ tmp_divs_xml="`mktemp`"
 enclose_xml a "$tmp_divs" \
 	| xmlstarlet fo > "$tmp_divs_xml"
 
-
-#	| sed -e 's/^[ \t]*//' | grep -v "^$" \
-
 #create list of external ids using base64 on prepared ($XSL1) concatenated fields
 #this is about 10-100 times faster than xsl base64
 tmp_ids="`mktemp`"
@@ -164,6 +163,7 @@ xmlstarlet tr "$XSL3" -s ids="$tmp_ids_xml" "$tmp_divs_xml" \
 	| replace_math_placeholders \
 > "$tmp_divs"
 
+rm -f "$tmp_divs_xml"
 rm -f "$tmp_ids_xml"
 
 print_label "creating index.out..."
