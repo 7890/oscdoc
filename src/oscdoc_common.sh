@@ -1,5 +1,5 @@
 #!/bin/bash
-#oscdoc is part of https://github.com/7890/oscdoc
+#oscdoc_common is part of https://github.com/7890/oscdoc
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -14,12 +14,27 @@ XSL3="$XSL_DIR"/merge_ext_ids.xsl
 
 RES_DIR="$DIR"/oscdoc_res
 
+CACHE_DIR="/tmp/oscdoc_cache"
+
 function print_label()
 {
 	echo ".------" >&2
 	echo "| $1" >&2
 	echo "\______" >&2
 }
+
+if [ ! -e "$CACHE_DIR" ]
+then
+	print_label "file cache does not exist, creating... ($CACHE_DIR)"
+	mkdir -p "$CACHE_DIR"
+fi
+
+if [ ! -e "$CACHE_DIR" ]
+then
+	print_label "/!\\ cache can not be used!"
+	echo "$CACHE_DIR" >&2
+	exit 1
+fi
 
 if [ ! -e "$XSL1" ]
 then
@@ -71,7 +86,8 @@ function checkAvail()
 
 function validate()
 {
-	echo -n "checking if XML file is valid... " >&2
+	#echo -n "checking if XML file is valid... " >&2
+	print_label "checking if XML file is valid... "
 	DEFINITION="$1"
 
 	a=`"$VAL_SCRIPT" "$DEFINITION" 2>&1`
@@ -136,21 +152,37 @@ function cat_local_or_remote_file()
 	if [ $ret -eq 0 ]
 	then
 		doc_origin="$DEFINITION"
-		print_label "fetching $doc_origin"
 
-		fetch_tmp="`mktemp`"
-		wget -q -O "$fetch_tmp" "$doc_origin"
-		ret=$?
-		if [ $ret -ne 0 ]
+		cache_hash=`echo -n "$doc_origin" | base64 - \
+			| translate_base64_to_attribute`
+
+		#print_label "cache hash for $doc_origin:"
+		#echo "$cache_hash" >&2
+		#ls -1 "$CACHE_DIR"/"$cache_hash" >&2
+
+		if [ -e "$CACHE_DIR"/"$cache_hash" ]
 		then
-			print_label "/!\\ error wgetting remote file $doc_origin"
-			rm -f "$fetch_tmp"
-			return 1
+			print_label "found $doc_origin in cache"
+		else
+			print_label "fetching $doc_origin"
+
+			fetch_tmp="`mktemp`"
+			wget -q -O "$fetch_tmp" "$doc_origin"
+			ret=$?
+			if [ $ret -ne 0 ]
+			then
+				print_label "/!\\ error wgetting remote file $doc_origin"
+				rm -f "$fetch_tmp"
+				return 1
+			fi
+
+			validate "$fetch_tmp"
+
+			print_label "putting $doc_origin to cache"
+			mv "$fetch_tmp" "$CACHE_DIR"/"$cache_hash"
 		fi
 
-		cat "$fetch_tmp"
-		rm -f "$fetch_tmp"
-		return 0
+		cat "$CACHE_DIR"/"$cache_hash"
 	else
 		#rewrite file:// uris
 		file_uri_test="`echo \"$DEFINITION\" | grep '^file://.*'`"
@@ -168,7 +200,22 @@ function cat_local_or_remote_file()
 			return 1
 		fi
 
+		cache_hash=`echo -n "$DEFINITION" | base64 - \
+			| translate_base64_to_attribute`
+
+		#print_label "cache hash for $DEFINITION:"
+		#echo "$cache_hash" >&2
+
+		if [ -e "$CACHE_DIR"/"$cache_hash" ]
+		then
+			print_label "found $DEFINITION in cache."
+		else
+			validate "$DEFINITION"
+			print_label "putting $DEFINITION to cache."
+			cp "$DEFINITION" "$CACHE_DIR"/"$cache_hash"
+		fi
+
 		cat "$DEFINITION"
-		return 0
 	fi
+	return 0
 }

@@ -16,13 +16,6 @@ then
 fi
 
 SELF=oscdoc_aspect_map
-
-#XSLDIR="$DIR"/oscdoc_xsl
-#XSL1="$XSLDIR"/rewrite_message_paths.xsl
-
-#after install oschema_validate is in search path
-#VAL_SCRIPT=oschema_validate
-
 #echo "called with args $@" >&2
 
 #1
@@ -80,73 +73,19 @@ fi
 for tool in {xmlstarlet,sed,diff,bc,wget,oschema_validate,oscdoc_aspect_map}; \
 	do checkAvail "$tool"; done
 
-#test if url to download
-doc_origin=""
-remote_test="`echo "$DEFINITION" | grep '^http.*'`"
-ret=$?
-if [ $ret -eq 0 ]
-then
-	doc_origin="$DEFINITION"
-	print_label "fetching $doc_origin"
-
-	fetch_tmp="`mktemp`"
-
-	wget -q -O "$fetch_tmp" "$doc_origin"
-	ret=$?
-	if [ $ret -ne 0 ]
-	then
-		print_label "/!\\ error wgetting remote file $doc_origin"
-		rm -f "$fetch_tmp"
-		exit 1
-
-	fi
-	#cat "$fetch_tmp"
-
-	#call self with local (downloaded) file
-	"$SELF" "$fetch_tmp" "$MOUNT_AT" "$XPATH" "$DIRECTION"
-	ret=$?
-	if [ $ret -ne 0 ]
-	then
-		print_label "/!\\ error in recursive call in oscdoc_aspect_map"
-		rm -f "$fetch_tmp"
-		exit 1
-	fi
-
-	rm -f "$fetch_tmp"
-
-	exit
-fi
-
-#rewrite file:// uris
-file_uri_test="`echo \"$DEFINITION\" | grep '^file://.*'`"
-ret=$?
-if [ $ret -eq 0 ]
-then
-	file="`echo \"$DEFINITION\" | cut -d"/" -f3-`"
-#	echo $file
-	DEFINITION="$file"
-fi
-
-if [ ! -e "$DEFINITION" ]
-then
-	print_label "/!\\ XML file not found!"
-	echo "$DEFINITION" >&2
-	exit 1
-fi
-
-echo -n "checking if XML file is valid... " >&2
-
-a=`"$VAL_SCRIPT" "$DEFINITION" 2>&1`
+#operate always on tmp file
+tmp_def="`mktemp`"
+cat_local_or_remote_file "$DEFINITION" > "$tmp_def"
 ret=$?
 if [ $ret -ne 0 ]
 then
-	echo "NO ($DEFINITION)" >&2
-	print_label "/!\\ invalid oschema instance ($DEFINITION). error output below:"
-	echo "$a" >&2
+	print_label "/!\\ error reading $DEFINITION!"
 	exit 1
-else
-	echo "yes ($DEFINITION)" >&2
 fi
+
+DEFINITION="$tmp_def"
+
+#file should be available and valid from here on
 
 #uri as per doc content
 URI="`cat "$DEFINITION" \
@@ -173,7 +112,9 @@ cat "$DEFINITION" \
 cat "$referenced_origins" | grep -v "^$" > "$referenced_origins"_
 mv "$referenced_origins"_ "$referenced_origins"
 
-#| sed -e 's/^[ \t]*//'
+#it's a tmp file
+rm -f "$DEFINITION"
+
 #cat "$referenced_origins"
 
 COUNT=`cat "$referenced_origins" | wc -l`
@@ -219,6 +160,5 @@ fi
 rm -f "$referenced_origins"
 
 echo "oscdoc_aspect_map done." >&2
-#("$DEFINITION" "$MOUNT_AT" "$XPATH" "$DIRECTION")
 
 exit

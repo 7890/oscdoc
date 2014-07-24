@@ -35,14 +35,14 @@ else
 	exit 1
 fi
 
+#definition is now available and valid
+
 if [ ! -e "$OUTPUT_DIR" ]
 then
 	print_label "/!\\ output directory does not exist!"
 	echo "$OUTPUT_DIR" >&2
 	exit 1
 fi
-
-validate "$DEFINITION"
 
 #assemble referenced asspects to generate a graph showing the
 #"mount points"
@@ -204,6 +204,9 @@ cp "$DEFINITION" "$OUTPUT_DIR"/res/unit.orig.xml
 
 #echo "output:" >&2
 echo "$OUTPUT_DIR/index.html" >&2
+
+echo "note: clear the oscdoc cache or single files here: $CACHE_DIR/"
+echo "files once in the cache won't be downloaded or validated a second time."
 echo "oscdoc done." >&2
 
 exit 
