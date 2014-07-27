@@ -134,7 +134,7 @@ div.ascii
 	display: none;
 }
 
-#input1
+#input0,#input1
 {
 	font-size: 1.4em;
 	font-weight: bold;
