@@ -58,6 +58,7 @@
 
 <input type="button" id="btn_clear_input" onclick="javascript:clearInput();" value="Clear Input"></input>
 <input type="button" id="btn_reset_form" onclick="javascript:resetForm();" value="Reset"></input>
+<input type="button" id="btn_toggle_legend" onclick="javascript:toggleLegend();" value="Toggle Legend"></input>
 <br/>
 
 <input type="button" id="btn_show_all" onclick="javascript:showAll();" value="List All"></input>
@@ -88,10 +89,14 @@ Direction: <select id="opt1" name="direction">
               </td>
               <td style="vertical-align:top;padding-left:0px">
 
+
                 <div id="desc" class="outputDiv"/>
+
                 <!-- legend -->
 
-                <div>
+                <div id="legend" class="legendDiv"/>
+
+                <div id="legend_hidden" class="hidden_content">
                   <h2>Legend</h2>
                   <h3>Datatypes</h3>
                   <ul>
@@ -106,6 +111,11 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
                     <li><strong>s</strong>: string</li>
                     <li><strong>b</strong>: blob</li>
                     <li><strong>c</strong>: char, unsigned 8-bit char, decimal 0-255</li>
+                    <li><strong>T</strong>: Symbol representing True</li>
+                    <li><strong>F</strong>: Symbol representing False</li>
+                    <li><strong>N</strong>: Symbol representing Nil</li>
+                    <li><strong>I</strong>: Symbol representing Infinitum</li>
+
                     <li><strong>X</strong>: unknown / custom parameter type. arbitrary content</li>
                     <li><strong>_</strong>: last expressed param in typetag can occur 0 to n times</li>
                     <li><strong>*</strong>: anything (also: handled by reusable aspect)</li>
