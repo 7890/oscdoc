@@ -44,9 +44,8 @@ $(document).ready(function() {
         // Fire an onActivate() event for the currently active node
 		treeSetKeys();
 		treeSetTooltips();
-		this.reactivate();
-		showAll();
-    }
+//		this.reactivate();
+	}
 //start json===========
 //ex. jason_data
 //end json===========
@@ -464,8 +463,15 @@ function resetForm()
 	//refs yes
 	$('#opt2').val(1);
 
+	last_selected_pattern='';
+
 	treeCollapseAll();
 	showMeta();
+
+	if(legend_hidden==0)
+	{
+		toggleLegend();
+	}
 }
 
 function toggleLegend()
