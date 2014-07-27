@@ -10,7 +10,9 @@ XSL_DIR="$DIR"/oscdoc_xsl
 XSL1="$XSL_DIR"/oschema2html.xsl
 XSL2="$XSL_DIR"/oscdocindex.xsl
 XSL3="$XSL_DIR"/merge_ext_ids.xsl 
-#XSL4="$XSL_DIR"/rewrite_message_paths.xsl
+
+XSL4="$XSL_DIR"/rewrite_message_paths.xsl
+#XSL5="$XSL_DIR"/add_messages.xsl
 
 RES_DIR="$DIR"/oscdoc_res
 
@@ -57,10 +59,17 @@ then
 	exit 1
 fi
 
-#if [ ! -e "$XSL4" ]
+if [ ! -e "$XSL4" ]
+then
+	print_label "/!\\ stylesheet not found!"
+	echo "$XSL4" >&2
+	exit 1
+fi
+
+#if [ ! -e "$XSL5" ]
 #then
 #	print_label "/!\\ stylesheet not found!"
-#	echo "$XSL4" >&2
+#	echo "$XSL5" >&2
 #	exit 1
 #fi
 
@@ -87,7 +96,7 @@ function checkAvail()
 function validate()
 {
 	#echo -n "checking if XML file is valid... " >&2
-	print_label "checking if XML file is valid... "
+	print_label "checking if oschema instance file is valid... "
 	DEFINITION="$1"
 
 	a=`"$VAL_SCRIPT" "$DEFINITION" 2>&1`
@@ -103,13 +112,36 @@ function validate()
 	fi
 }
 
+function validate_aspect_map()
+{
+	#dummy, no schema
+	ASPECT_MAP="$1"
+
+	if [ ! -e "$ASPECT_MAP" ]
+		then
+		echo "aspect map file not found!" >&2
+		echo "$ASPECT_MAP" >&2
+		exit 1
+	fi
+
+	print_label "checking if aspect map file is valid (loosely)... "
+
+	cat "$ASPECT_MAP" | xmlstarlet fo 2>&1 >/dev/null
+	ret=$?
+	if [ $ret -ne 0 ]
+	then
+		echo "the aspect map was not valid." >&2
+		exit 1
+	fi
+}
+
 #1: tag 2: file to enclose
 function enclose_xml()
 {
 	(echo "<$1>"; cat "$2"; echo "</$1>";)
 }
 
-function remove_trailing_and_empty()
+function remove_leading_and_empty()
 {
 	sed -e 's/^[ \t]*//' | grep -v "^$"
 }
