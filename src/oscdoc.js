@@ -28,14 +28,26 @@ $(document).ready(function() {
 			onClick: function(node) {
 				usePathFromTree(node);
 			},
-//start json===========
-children:[
-{isFolder:true,title:"hello",key:"",children:[]}
-]
-//end json===========
-		});
+//The web service is expected to return a valid JSON node list, formatted like this:
+//[ { ... }, { ... }, ... ]. 
+	initAjax: {
+		url: "res/tree.json",
+		data: { mode: "all"}
+		},
+
+	onPostInit: function(isReloading, isError) {
+        // 'this' is the current tree
+        // isReloading is true, if status was read from existing cookies
+        // isError is only used in Ajax mode
+        // Fire an onActivate() event for the currently active node
 		treeSetKeys();
 		treeSetTooltips();
+		this.reactivate();
+    }
+//start json===========
+//ex. jason_data
+//end json===========
+		});
 	});
 
 	var tree = xotree.parseXML( xml );
