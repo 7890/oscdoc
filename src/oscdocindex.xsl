@@ -28,7 +28,7 @@
         </title>
       </head>
 
-      <body onload="javascript:showMeta();">
+      <body onload="javascript:showMeta();showAll();">
         <div id="outterDiv" style="padding: 5px;">
           <table style="width:100%;">
             <tr>
@@ -62,7 +62,7 @@
 <br/>
 
 <input type="button" id="btn_show_all" onclick="javascript:showAll();" value="List All"></input>
-<input type="button" id="btn_recall_last_selected" onclick="javascript:recallLastSelected();" value="Put Selection"></input>
+<input type="button" id="btn_recall_last_selected" onclick="javascript:recallLastSelected();" value="Put"></input>
 <input type="button" id="btn_recude_last_selected" onclick="javascript:reduceLastSelected();" value="Reduce"></input>
 <input type="button" id="btn_use_leaf_last_selected" onclick="javascript:useLeafLastSelected();" value="Leaf"></input>
 
@@ -76,7 +76,7 @@ Direction: <select id="opt1" name="direction">
 <option value="1">yes</option>
 <option value="0">no</option>
 <option value="2">only</option></select><br/>
-<textarea class="focused" rows="1" cols="24" wrap="soft" id="input1"/>
+<textarea class="focused" rows="1" cols="32" wrap="soft" id="input1"/>
 </form>
 
                 </div>
