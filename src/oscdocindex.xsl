@@ -46,21 +46,24 @@
 
 <form action="#" id="form1" style="margin-top: 10px;">
 
+<input type="button" id="btn_tree_expand" onclick="javascript:treeExpandAll();" value="Expand All"></input>
+<input type="button" id="btn_tree_collapse" onclick="javascript:treeCollapseAll();" value="Collapse All"></input>
+
 <div id="tree"> </div>
 
 <input type="button" id="btn_tree_expand" onclick="javascript:treeExpandAll();" value="Expand All"></input>
 <input type="button" id="btn_tree_collapse" onclick="javascript:treeCollapseAll();" value="Collapse All"></input>
-<input type="button" id="btn3" onclick="javascript:syncTree();" value="Sync Tree"></input>
+<input type="button" id="btn_sync_tree" onclick="javascript:syncTree();" value="Sync Tree"></input>
 <br/><br/>
 
-<input type="button" id="btn6" onclick="javascript:clearInput();" value="Clear Input"></input>
-<input type="button" id="btn6" onclick="javascript:resetForm();" value="Reset"></input>
+<input type="button" id="btn_clear_input" onclick="javascript:clearInput();" value="Clear Input"></input>
+<input type="button" id="btn_reset_form" onclick="javascript:resetForm();" value="Reset"></input>
 <br/>
 
-<input type="button" id="btn1" onclick="javascript:showAll();" value="List All"></input>
-<input type="button" id="btn2" onclick="javascript:recallLastSelected();" value="Put Selection"></input>
-<input type="button" id="btn4" onclick="javascript:reduceLastSelected();" value="Reduce"></input>
-<input type="button" id="btn5" onclick="javascript:useLeafLastSelected();" value="Leaf"></input>
+<input type="button" id="btn_show_all" onclick="javascript:showAll();" value="List All"></input>
+<input type="button" id="btn_recall_last_selected" onclick="javascript:recallLastSelected();" value="Put Selection"></input>
+<input type="button" id="btn_recude_last_selected" onclick="javascript:reduceLastSelected();" value="Reduce"></input>
+<input type="button" id="btn_use_leaf_last_selected" onclick="javascript:useLeafLastSelected();" value="Leaf"></input>
 
 <p>Search for Message Pattern</p>
 Typetag: <input class="focused" size="6" id="input0"></input>
