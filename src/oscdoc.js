@@ -12,31 +12,62 @@ function jq( myid )
 	return myid.replace( /(:|\.|\[|\])/g, "\\$1" );
 }
 
-$(document).ready(function() 
+//http://stackoverflow.com/questions/646628/how-to-check-if-a-string-startswith-another-string
+if (typeof String.prototype.startsWith != 'function') 
 {
+	String.prototype.startsWith = function (str)
+	{
+		return this.indexOf(str) == 0;
+	};
+}
+
+$(document).ready(function() {
+
+	$(function(){
+		$("#tree").dynatree({
+			onClick: function(node) {
+				usePathFromTree(node);
+			},
+//start json===========
+children:[
+{isFolder:true,title:"hello",key:"",children:[]}
+]
+//end json===========
+		});
+		treeSetKeys();
+		treeSetTooltips();
+	});
+
 	var tree = xotree.parseXML( xml );
 	root = tree.osc_unit;
 		
 	$('#input1').focus();
 
+//direction
 	$('#opt1').on('change',function(evt)
 	{
-		$('#input1').focus();
-		e = $.Event('keyup');
-		e.keyCode= 13; // enter
-		$('#input1').trigger(e);
+		updateList();
 	});
 
+//refs
 	$('#opt2').on('change',function(evt)
 	{
-		$('#input1').focus();
-		e = $.Event('keyup');
-		e.keyCode= 13; // enter
-		$('#input1').trigger(e);
+		updateList();
 	});
 
-	$('#input1').keyup(function(evt){
+//typetag
+	$('#input0').keyup(function(evt){
+		updateList();
+	}); //end keyup on input0
 
+//pattern
+	$('#input1').keyup(function(evt){
+		updateList();
+	}); //end keyup on input1
+
+	//path list
+	function updateList()
+	{
 		setMessage("");
 
 		var text=$('#input1').val();
@@ -59,8 +90,7 @@ $(document).ready(function()
 
 		//cancel the default handling of the event by the browser
 		return false;
-
-	}); //end keyup on input1
+	}
 
 	//http://api.jquery.com/focus-selector/
 	$("#outterDiv" ).delegate( "*", "focus blur", function() 
@@ -89,8 +119,8 @@ function handle_messages(message,text,dir)
 	var out='';
 	var match_count=0;
 
-
 	var refs=$('#opt2').val();
+	var typetag_filter=$('#input0').val();
 
 	//case ruled out when no messages available at all
 	if(isNaN(message.length)) //can happen when only one message available
@@ -104,38 +134,13 @@ function handle_messages(message,text,dir)
 		var regexp=new RegExp(text,"gi");
 		if(pattern.match(regexp))
 		{
-			var aspect=message['aspect'];
-			if(aspect)
+
+			//not case insensitive
+			var regexp_tt=new RegExp(typetag_filter,"g");
+			if(typetag.match(regexp_tt))
 			{
-				if(refs==1 || refs==2)
-				{
-					out+='[...] ';
-					out+='<a href="#" onclick="javascript:patternClicked('+i+','+direction_+');" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
-					match_count++
-				}
-			}
-			else if (refs!=2)
-			{
-				out+='<a href="#" onclick="javascript:patternClicked('+i+','+direction_+');" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
-				match_count++
-			}
-		}
-	}
-	else
-	{
-		var i;
-		for(i=0;i<message.length;i++)
-		{
-			pattern=message[i]['@pattern'];
-			typetag=message[i]['@typetag'];	
-			if(!typetag)
-			{
-				typetag="";
-			}
-			var regexp=new RegExp(text,"gi");
-			if(pattern.match(regexp))
-			{
-				var aspect =message[i]['aspect'];
+
+				var aspect=message['aspect'];
 				if(aspect)
 				{
 					if(refs==1 || refs==2)
@@ -149,6 +154,49 @@ function handle_messages(message,text,dir)
 				{
 					out+='<a href="#" onclick="javascript:patternClicked('+i+','+direction_+');" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
 					match_count++
+				}
+			}
+		}
+	}
+	else
+	{
+		var i;
+		for(i=0;i<message.length;i++)
+		{
+			pattern=message[i]['@pattern'];
+			typetag=message[i]['@typetag'];	
+
+			if(!typetag)
+			{
+				typetag="";
+			}
+
+			var regexp=new RegExp(text,"gi");
+
+			var pattern_ranges_removed=pattern.replace(/[\[][,0-9]+[\]]/gi, "");
+
+			if(pattern_ranges_removed.match(regexp))
+			{
+
+				//not case insensitive
+				var regexp_tt=new RegExp(typetag_filter,"g");
+				if(typetag.match(regexp_tt))
+				{
+					var aspect =message[i]['aspect'];
+					if(aspect)
+					{
+						if(refs==1 || refs==2)
+						{
+							out+='[...] ';
+							out+='<a href="#" onclick="javascript:patternClicked('+i+','+direction_+');" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
+							match_count++
+						}
+					}
+					else if (refs!=2)
+					{
+						out+='<a href="#" onclick="javascript:patternClicked('+i+','+direction_+');" onfocus="javascript:patternClicked('+i+','+direction_+');">'+pattern+' '+typetag+'</a></br>';
+						match_count++
+					}
 				}
 			}
 		}
@@ -194,7 +242,7 @@ function patternClicked(index,dir)
 	}
 	generated_id+=';'+dir_+';';
 
-	last_selected_pattern=message['@pattern'];
+	last_selected_pattern=message['@pattern'].replace(/[\[][,0-9]+[\]]/gi, "");
 
 	//alert(btoa(generated_id));
 	//alert(atob(btoa(generated_id)));
@@ -266,16 +314,15 @@ function setMessage(msg)
 
 function clearInput()
 {
+	$('#input0').val("");
 	$('#input1').val("");
-	$('#input1').focus();
+//	$('#input1').focus();
 	setMessage("");
 }
 
 function recallLastSelected()
 {
-	var s=last_selected_pattern;
-
-	$('#input1').val(s);
+	$('#input1').val(last_selected_pattern);
 	$('#input1').focus();
 	setMessage("");
 
@@ -301,16 +348,27 @@ function useLeafLastSelected()
 
 function reduceLastSelected()
 {
-var n = last_selected_pattern.lastIndexOf('/');
-var s = last_selected_pattern.substring(0,n);
-
-
-//	var parts=last_selected_pattern.split("/");
-//	var s='/'+parts[parts.length - 2]; // Or parts.pop();
+	var n = last_selected_pattern.lastIndexOf('/');
+	var s = last_selected_pattern.substring(0,n);
 
 	last_selected_pattern=s;
 
 	$('#input1').val(s);
+	$('#input1').focus();
+	setMessage("");
+
+	e = $.Event('keyup');
+	e.keyCode= 13; // enter
+	$('#input1').trigger(e);
+}
+
+function syncTree()
+{
+	treeCollapseAll();
+
+	treeNavigateTo(last_selected_pattern);
+
+	$('#input1').val(last_selected_pattern);
 	$('#input1').focus();
 	setMessage("");
 
@@ -328,3 +386,76 @@ function showAll()
 	e.keyCode= 13; // enter
 	$('#input1').trigger(e);
 }
+
+function usePathFromTree(node)
+{
+	var s=node.getKeyPath();
+	last_selected_pattern=s;
+
+	$('#input1').val(s);
+	$('#input1').focus();
+	setMessage("");
+
+	e = $.Event('keyup');
+	e.keyCode= 13; // enter
+	$('#input1').trigger(e);
+}
+
+function treeExpandAll()
+{
+	$("#tree").dynatree("getRoot").visit(function(node){
+		node.expand(true);
+	});
+}
+
+function treeCollapseAll()
+{
+	$("#tree").dynatree("getRoot").visit(function(node){
+		node.expand(false);
+	});
+}
+
+function treeSetTooltips()
+{
+	$("#tree").dynatree("getRoot").visit(function(node){
+		node.data.tooltip=node.getKeyPath();
+	});
+}
+
+function treeSetKeys()
+{
+	$("#tree").dynatree("getRoot").visit(function(node){
+		node.data.key=node.data.title.replace(/[\[][,0-9]+[\]]/gi, "");
+	});
+}
+
+function treeNavigateTo(path)
+{
+	$("#tree").dynatree("getRoot").visit(function(node){
+		if(path.startsWith(node.getKeyPath()))
+		{
+			node.expand(true);
+/*
+			if(!node.hasChildren())
+			{
+				node.activate();
+			}
+*/
+			node.activate();
+		}
+	});
+}
+
+function resetForm()
+{
+	clearInput();
+
+	//dir in+out
+	$('#opt1').val(3);
+	//refs yes
+	$('#opt2').val(1);
+
+	treeCollapseAll();
+	showMeta();
+}
+
