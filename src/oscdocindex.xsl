@@ -13,19 +13,22 @@
   <xsl:template match="/osc_unit">
     <xsl:variable name="name" select="meta/name"/>
     <html>
-
       <head>
         <script type="text/javascript" src="res/jquery-1.11.1.min.js"/>
         <script type="text/javascript" src="res/ObjTree.js"/>
         <script type="text/javascript" src="res/xml_data.js"/>
+        <script type="text/javascript" src="res/jquery-ui.custom.min.js"/>
+        <script type="text/javascript" src="res/jquery.dynatree.min.js"/>
+
         <link type="text/css" href="res/oscdoc.css" rel="stylesheet"/>
         <link type="text/css" href="res/xmlverbatim.css" rel="stylesheet"/>
+		<link type="text/css" href="res/dynatree/ui.dynatree.css" rel="stylesheet"/>
         <title>
           <xsl:value-of select="concat($name,' OSC API')"/>
         </title>
       </head>
 
-      <body onload="javascript:showHelp();">
+      <body onload="javascript:showMeta();">
         <div id="outterDiv" style="padding: 5px;">
           <table style="width:100%;">
             <tr>
@@ -36,18 +39,33 @@
                   <h1 style="margin-bottom: 0;">
                     <xsl:value-of select="concat($name,' OSC API')"/>
                   </h1>
-                  <a href="#" onclick="javascript:showHelp();" onfocus="javascript:showHelp();" style="outline: none;">Documentation</a>
-                  <xsl:value-of select="concat($nbsp,$nbsp)"/>
+
                   <a href="#" onclick= "javascript:showMeta();" onfocus="javascript:showMeta();" style="outline: none;">Metadata</a>
+                  <xsl:value-of select="concat($nbsp,$nbsp)"/>
+                  <a href="#" onclick="javascript:showHelp();" onfocus="javascript:showHelp();" style="outline: none;">Documentation</a>
 
 <form action="#" id="form1" style="margin-top: 10px;">
-<input type="button" id="btn1" onclick="javascript:showAll();"    value="Show All"/>
-<input type="button" id="btn5" onclick="javascript:clearInput();" value="Clear Input"/><br/>
-<input type="button" id="btn2" onclick="javascript:recallLastSelected();" value="Recall"/>
-<input type="button" id="btn3" onclick="javascript:reduceLastSelected();" value="Reduce"/>
-<input type="button" id="btn4" onclick="javascript:useLeafLastSelected();" value="Leaf"/>
 
-<p>Search for Message Pattern:</p>Direction: <select id="opt1" name="direction">
+<div id="tree"> </div>
+
+<input type="button" id="btn_tree_expand" onclick="javascript:treeExpandAll();" value="Expand All"></input>
+<input type="button" id="btn_tree_collapse" onclick="javascript:treeCollapseAll();" value="Collapse All"></input>
+<input type="button" id="btn3" onclick="javascript:syncTree();" value="Sync Tree"></input>
+<br/><br/>
+
+<input type="button" id="btn6" onclick="javascript:clearInput();" value="Clear Input"></input>
+<input type="button" id="btn6" onclick="javascript:resetForm();" value="Reset"></input>
+<br/>
+
+<input type="button" id="btn1" onclick="javascript:showAll();" value="List All"></input>
+<input type="button" id="btn2" onclick="javascript:recallLastSelected();" value="Put Selection"></input>
+<input type="button" id="btn4" onclick="javascript:reduceLastSelected();" value="Reduce"></input>
+<input type="button" id="btn5" onclick="javascript:useLeafLastSelected();" value="Leaf"></input>
+
+<p>Search for Message Pattern</p>
+Typetag: <input class="focused" size="6" id="input0"></input>
+<br/>
+Direction: <select id="opt1" name="direction">
 <option value="3">in+out</option>
 <option value="1">in</option>
 <option value="2">out</option></select> Refs: <select id="opt2" name="ref">
@@ -198,7 +216,7 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
       <xsl:apply-templates select="." mode="xmlverb"/>
     </div>
   </xsl:template>
-
+  <!-- =========================== -->
   <xsl:template name="meta_aspects">
     <xsl:if test="$aspects_graph_tl != '' and $aspects_graph_svg != ''">
       <h3>Aspects Graph</h3>
