@@ -12,7 +12,7 @@ h2
 
 h3 
 { 
-	font: 14pt monospace;
+	font: 12pt monospace;
 	font-weight: bold;
 	color:black; 
 	padding-left: 30px;
@@ -20,7 +20,7 @@ h3
 
 h4 
 { 
-	font: 14pt monospace;
+	font: 12pt monospace;
 	font-weight: bold;
 	font-size: 12pt; 
 	color:black; 
@@ -29,7 +29,7 @@ h4
 
 h5 
 { 
-	font: 14pt monospace;
+	font: 12pt monospace;
 	font-weight: bold;
 	font-size: 12pt; 
 	color:black; 
@@ -38,7 +38,7 @@ h5
 body 
 { 
 	background-color: #FFF; 
-	font: 16pt Helvetica, Arial;
+	font: Helvetica, Arial;
 	color: #000; 
 	margin:0; 
 	padding:0; 
@@ -54,17 +54,11 @@ ul
 
 ul li 
 {
-/*    background-image: url("1x30.png");*/
-/*    background-repeat: no-repeat;*/
-/*    background-position: 0px 5px;*/
 	padding-left: 30px;
 }
 
 ul li.double 
 {
-/*    background-image: url("1x30.png");*/
-/*    background-repeat: no-repeat;*/
-/*    background-position: 0px 5px;*/
 	padding-left: 60px;
 }
 
@@ -101,8 +95,20 @@ div.outputDiv
 	margin-right: 0px;
 	margin-bottom: 10px;
 	padding: 0px;
-	font: 12pt Helvetica, Arial;
-/*	background-color: #efefff;*/
+	background-image: url('draft.png');
+	background-repeat: no-repeat;
+}
+
+div.legendDiv
+{
+	float: left;
+	width: 100%;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 10px;
+	padding: 0px;
+	font-size: 11pt;
 	background-image: url('draft.png');
 	background-repeat: no-repeat;
 }
@@ -139,6 +145,11 @@ div.ascii
 	font-size: 1.4em;
 	font-weight: bold;
 	color: #000;
+}
+
+input 
+{
+	font: Helvetica, Arial;
 }
 
 table.tstyle
