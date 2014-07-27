@@ -1,0 +1,1 @@
+small modifications so that JSON output matches dynatree format
