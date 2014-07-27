@@ -7,6 +7,8 @@ var root;
 
 var last_selected_pattern='';
 
+var legend_hidden=1;
+
 function jq( myid ) 
 {
 	return myid.replace( /(:|\.|\[|\])/g, "\\$1" );
@@ -43,6 +45,7 @@ $(document).ready(function() {
 		treeSetKeys();
 		treeSetTooltips();
 		this.reactivate();
+		showAll();
     }
 //start json===========
 //ex. jason_data
@@ -447,12 +450,6 @@ function treeNavigateTo(path)
 		if(path.startsWith(node.getKeyPath()))
 		{
 			node.expand(true);
-/*
-			if(!node.hasChildren())
-			{
-				node.activate();
-			}
-*/
 			node.activate();
 		}
 	});
@@ -471,3 +468,16 @@ function resetForm()
 	showMeta();
 }
 
+function toggleLegend()
+{
+	if(legend_hidden==1)
+	{
+		$("#legend").html($("#legend_hidden").html());
+		legend_hidden=0;
+	}
+	else
+	{
+		$("#legend").html("");
+		legend_hidden=1;
+	}
+}
