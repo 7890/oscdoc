@@ -14,7 +14,7 @@ fi
 DEFINITION="$1"
 OUTPUT_DIR="$2"
 
-for tool in {xmlstarlet,sed,diff,bc,oschema_validate,oscdoc_aspect_map,dot,convert,oscdoc_aspect_graph}; \
+for tool in {xmlstarlet,sed,diff,bc,oschema_validate,oscdoc_aspect_map,dot,convert,oscdoc_aspect_graph,oscdoc_tree1}; \
 	do checkAvail "$tool"; done
 
 tmp_def="`mktemp`"
@@ -166,6 +166,12 @@ xmlstarlet tr "$XSL3" -s ids="$tmp_ids_xml" "$tmp_divs_xml" \
 
 rm -f "$tmp_divs_xml"
 rm -f "$tmp_ids_xml"
+
+print_label "creating tree..."
+
+json_data="`mktemp`"
+oscdoc_tree1 "$DEFINITION" > "$json_data"
+mv "$json_data" "$OUTPUT_DIR"/res/tree.json
 
 print_label "creating index.out..."
 
