@@ -128,14 +128,14 @@ enclose_xml a "$tmp_divs" \
 #this is about 10-100 times faster than xsl base64
 tmp_ids="`mktemp`"
 cat "$tmp_divs_xml" | xmlstarlet sel -t -m "//msg/id" -v "." -n \
-        | remove_trailing_and_empty \
+        | remove_leading_and_empty \
 	| while read line
 	do
 		echo -n "$line" | base64 -w 0 -
 		echo ""
 	done \
 	| translate_base64_to_attribute \
-        | remove_trailing_and_empty \
+        | remove_leading_and_empty \
 	> "$tmp_ids"
 
 id_count=`cat "$tmp_ids" | wc -l`
@@ -200,7 +200,7 @@ rm -f "$tmp_index"
 print_label "copying ressources to $OUTPUT_DIR..."
 
 #copy other needed resources for html page and archive
-cp "$RES_DIR"/* "$OUTPUT_DIR"/res
+cp -r "$RES_DIR"/* "$OUTPUT_DIR"/res
 cp "$DEFINITION" "$OUTPUT_DIR"/res/unit.orig.xml
 
 #echo "output:" >&2
