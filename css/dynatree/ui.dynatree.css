@@ -303,7 +303,8 @@ span.dynatree-folder a
 ul.dynatree-container a:focus,
 span.dynatree-focused a:link  /* @IE */
 {
-	background-color: #EFEBDE; /* gray */
+/*	background-color: #EFEBDE; gray */
+	background-color: red;
 }
 
 span.dynatree-has-children a
