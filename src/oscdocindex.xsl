@@ -50,13 +50,13 @@
 <form action="#" id="form1" style="margin-top: 10px;">
 
 <xsl:if test="$show_tree='1'">
- <input type="button" id="btn_tree_expand" onclick="javascript:treeExpandAll();" value="Expand All"></input>
- <input type="button" id="btn_tree_collapse" onclick="javascript:treeCollapseAll();" value="Collapse All"></input>
+ <input type="button" id="btn_tree_expand_top" onclick="javascript:treeExpandAll();" value="Expand All"></input>
+ <input type="button" id="btn_tree_collapse_top" onclick="javascript:treeCollapseAll();" value="Collapse All"></input>
 
  <div id="tree"> </div>
 
- <input type="button" id="btn_tree_expand" onclick="javascript:treeExpandAll();" value="Expand All"></input>
- <input type="button" id="btn_tree_collapse" onclick="javascript:treeCollapseAll();" value="Collapse All"></input>
+ <input type="button" id="btn_tree_expand_bottom" onclick="javascript:treeExpandAll();" value="Expand All"></input>
+ <input type="button" id="btn_tree_collapse_bottom" onclick="javascript:treeCollapseAll();" value="Collapse All"></input>
  <input type="button" id="btn_sync_tree" onclick="javascript:syncTree();" value="Sync Tree"></input>
  <br/><br/>
 </xsl:if>
