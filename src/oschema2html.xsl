@@ -50,7 +50,7 @@
         </xsl:choose>
       </xsl:variable>
 
-      <h2>Message Patttern</h2>
+      <h2>Message Pattern</h2>
       <h3>
         <xsl:value-of select="concat(@pattern,' ',$tt)"/>
       </h3>
