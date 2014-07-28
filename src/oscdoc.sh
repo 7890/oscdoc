@@ -193,7 +193,7 @@ tmp_index="`mktemp`"
 if [ $GRAPH_SUCCESS -eq 1 ]
 then
 	#params relative to index.html
-	xmlstarlet tr "$XSL2" \
+	xmlstarlet tr --omit-decl "$XSL2" \
 	-s aspects_graph_tl="res/aspects_graph_tl.png" \
 	-s aspects_graph_svg="res/aspects_graph.svg" \
 	-s show_tree="$SHOW_TREE" \
@@ -201,7 +201,7 @@ then
 	> "$tmp_index"
 else
 	#params relative to index.html
-	xmlstarlet tr "$XSL2" \
+	xmlstarlet tr --omit-decl "$XSL2" \
 	-s show_tree="$SHOW_TREE" \
 	"$DEFINITION" \
 	> "$tmp_index"
@@ -210,7 +210,25 @@ fi
 print_label "creating index.html..."
 
 tmp_index_final="`mktemp`"
-sed "/<!--DIVS-->/r" "$tmp_divs" "$tmp_index" > "$tmp_index_final"
+
+#<?xml version="1.0" ?>
+#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+#    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+#<html xmlns="http://www.w3.org/1999/xhtml">
+
+#<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+#        "http://www.w3.org/TR/html4/strict.dtd">
+
+cat - > "$tmp_index_final" << __EOF__
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+       "http://www.w3.org/TR/html4/loose.dtd">
+__EOF__
+
+cat "$tmp_index" | grep -B10000000 '<!--DIVS-->' >> "$tmp_index_final"
+cat "$tmp_divs" | grep -v '^<?xml version="1.0"?>$' >> "$tmp_index_final"
+cat "$tmp_index" | grep -A10000000 '<!--DIVS-->' >> "$tmp_index_final"
+
+#sed '/<!--DIVS-->/r' "$tmp_divs" "$tmp_index" > "$tmp_index_final"
 
 print_label "cleaning up..."
 
