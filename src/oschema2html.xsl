@@ -113,9 +113,7 @@
 
       <xsl:if test="param_i | param_h | param_f | param_d | param_s | param_b | param_c | param_X | param__">
         <h2>Parameters</h2>
-        <ul>
           <xsl:apply-templates select="param_i | param_h | param_f | param_d | param_s | param_b | param_c | param_X | param__"/>
-        </ul>
       </xsl:if>
 
     </xsl:element>
