@@ -12,6 +12,8 @@ XSL2="$XSL_DIR"/oscdocindex.xsl
 XSL3="$XSL_DIR"/merge_ext_ids.xsl 
 
 XSL4="$XSL_DIR"/rewrite_message_paths.xsl
+XSL5="$XSL_DIR"/osctxt0.xsl
+
 #XSL5="$XSL_DIR"/add_messages.xsl
 
 RES_DIR="$DIR"/oscdoc_res
@@ -63,6 +65,13 @@ if [ ! -e "$XSL4" ]
 then
 	print_label "/!\\ stylesheet not found!"
 	echo "$XSL4" >&2
+	exit 1
+fi
+
+if [ ! -e "$XSL5" ]
+then
+	print_label "/!\\ stylesheet not found!"
+	echo "$XSL5" >&2
 	exit 1
 fi
 

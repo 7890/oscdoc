@@ -2,6 +2,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0">
   <xsl:output method="text" encoding="UTF-8"/>
   <!--//tb/131111/140715-->
+  <xsl:param name="show_meta">0</xsl:param>
+
   <xsl:variable name="nl" select="'&#10;'"/>
   <xsl:variable name="ind" select="'   '"/>
   <xsl:strip-space elements="*"/>
@@ -15,14 +17,18 @@
   </xsl:template>
   <!-- =============================== -->
   <xsl:template match="meta">
-    <xsl:value-of select="concat('name ',name,$nl)"/>
-    <xsl:value-of select="concat('uri ',uri,$nl)"/>
-    <xsl:value-of select="concat('doc_origin ',doc_origin,$nl)"/>
-    <xsl:apply-templates/>
+    <xsl:if test="$show_meta=1">
+      <xsl:value-of select="concat('name ',name,$nl)"/>
+      <xsl:value-of select="concat('uri ',uri,$nl)"/>
+      <xsl:value-of select="concat('doc_origin ',doc_origin,$nl)"/>
+      <xsl:apply-templates/>
+    </xsl:if>
   </xsl:template>
   <!-- =============================== -->
   <xsl:template match="meta/url">
-    <xsl:value-of select="concat('url ',.,$nl)"/>
+    <xsl:if test="$show_meta=1">
+      <xsl:value-of select="concat('url ',.,$nl)"/>
+    </xsl:if>
   </xsl:template>
   <!-- =============================== -->
   <xsl:template match="message_in | message_out">

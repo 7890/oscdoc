@@ -1,74 +1,48 @@
 #!/bin/bash
+#osctxl0 is part of https://github.com/7890/oscdoc
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-#oschema_validate is part of https://github.com/7890/oschema
-VAL_SCRIPT=oschema_validate
+. "$DIR"/oscdoc_common.sh
 
-XSLDIR="$DIR"/oscdoc_xsl
-
-XSL1=$XSLDIR/osctxt0.xsl
-
-if [ $# -ne 1 ]
+if [ $# -lt 1 ]
 then
-	echo "need params: <oscdoc xml file>" >&2
+	echo "need params: <oscdoc XML file>" >&2
 	exit
 fi
 
 DEFINITION="$1"
 
-print_label()
-{
-	echo ".------" >&2
-	echo "| $1" >&2
-	echo "\______" >&2
-}
+SHOW_META=0
 
-checkAvail()
-{
-	which "$1" >/dev/null 2>&1
-	ret=$?
-	if [ $ret -ne 0 ]
-	then
-		print_label "tool \"$1\" not found. please install"
-		print_label "note: oschema_validate is part of https://github.com/7890/oschema"
-		exit 1
-	fi
-}
+if [ $# -eq 2 ]
+then
+	SHOW_META=1
+fi
 
 for tool in {xmlstarlet,sed,diff,bc,oschema_validate}; \
 	do checkAvail "$tool"; done
 
+tmp_def="`mktemp`"
+function clean_up1 
+{
+        #clean up
+        rm -f "$tmp_def"
+}
+trap clean_up1 EXIT 
 
-if [ ! -e "$DEFINITION" ]
-then
-        echo "xml file not found!" >&2
-        echo "$DEFINITION" >&2
-        exit 1
-fi
-
-if [ ! -e "$XSL1" ]
-then
-        echo "stylesheet not found!" >&2
-        echo "$XSL1" >&2
-        exit 1
-fi
-
-echo -n "checking if xml file is valid... " >&2
-
-a=`"$VAL_SCRIPT" "$DEFINITION" 2>&1`
+#re-cache/re-download/re-validate given file anytime
+cat_local_or_remote_file "$DEFINITION" 1 > "$tmp_def"
 ret=$?
-if [ "x$ret" != "x0" ]
+if [ $ret -eq 0 ]
 then
-	echo "NO ($DEFINITION)" >&2
-	echo "reason is given below:" >&2
-	echo "$a" >&2
-	exit 1 >&2
+        DEFINITION="$tmp_def"
 else
-	echo "yes ($DEFINITION)" >&2
+        print_label "/!\\ could not use given file ($DEFINITION)!"
+        exit 1
 fi
 
-xmlstarlet tr "$XSL1" \
+xmlstarlet tr "$XSL5" -s show_meta="$SHOW_META" \
 "$DEFINITION" \
 	| sed 's/_LT_/</g' \
 	| sed 's/_LTE_/<=/g' \
