@@ -26,6 +26,9 @@ if (typeof String.prototype.startsWith != 'function')
 $(document).ready(function() {
 
 	$(function(){
+//if show_tree
+if( $('#tree').length )
+{
 		$("#tree").dynatree({
 			onClick: function(node) {
 				usePathFromTree(node);
@@ -46,10 +49,9 @@ $(document).ready(function() {
 		treeSetTooltips();
 //		this.reactivate();
 	}
-//start json===========
-//ex. jason_data
-//end json===========
-		});
+	});
+
+}//end if show_tree
 	});
 
 	var tree = xotree.parseXML( xml );
@@ -121,6 +123,11 @@ $(document).ready(function() {
 //dir: 'in' / 'out'
 function handle_messages(message,text,dir)
 {
+	if(!message)
+	{
+		return;
+	}
+
 	var direction_=1;
 	if(dir=='out')
 	{
@@ -137,7 +144,7 @@ function handle_messages(message,text,dir)
 	var typetag_filter=$('#input0').val();
 
 	//case ruled out when no messages available at all
-	if(isNaN(message.length)) //can happen when only one message available
+	if(isNaN(message.length))//can happen when only one message available
 	{
 		pattern=message['@pattern'];
 		typetag=message['@typetag'];
@@ -417,41 +424,61 @@ function usePathFromTree(node)
 
 function treeExpandAll()
 {
-	$("#tree").dynatree("getRoot").visit(function(node){
-		node.expand(true);
-	});
+	//if show_tree
+	if( $('#tree').length )
+	{
+		$("#tree").dynatree("getRoot").visit(function(node){
+			node.expand(true);
+		});
+	}
 }
 
 function treeCollapseAll()
 {
-	$("#tree").dynatree("getRoot").visit(function(node){
-		node.expand(false);
-	});
+	//if show_tree
+	if( $('#tree').length )
+	{
+		$("#tree").dynatree("getRoot").visit(function(node){
+			node.expand(false);
+		});
+	}
 }
 
 function treeSetTooltips()
 {
-	$("#tree").dynatree("getRoot").visit(function(node){
-		node.data.tooltip=node.getKeyPath();
-	});
+	//if show_tree
+	if( $('#tree').length )
+	{
+		$("#tree").dynatree("getRoot").visit(function(node){
+			node.data.tooltip=node.getKeyPath();
+		});
+	}
 }
 
 function treeSetKeys()
 {
-	$("#tree").dynatree("getRoot").visit(function(node){
-		node.data.key=node.data.title.replace(/[\[][,0-9]+[\]]/gi, "");
-	});
+	//if show_tree
+	if( $('#tree').length )
+	{
+		$("#tree").dynatree("getRoot").visit(function(node){
+			node.data.key=node.data.title.replace(/[\[][,0-9]+[\]]/gi, "");
+		});
+	}
 }
 
 function treeNavigateTo(path)
 {
-	$("#tree").dynatree("getRoot").visit(function(node){
-		if(path.startsWith(node.getKeyPath()))
-		{
-			node.expand(true);
-			node.activate();
-		}
-	});
+	//if show_tree
+	if( $('#tree').length )
+	{
+		$("#tree").dynatree("getRoot").visit(function(node){
+			if(path.startsWith(node.getKeyPath()))
+			{
+				node.expand(true);
+				node.activate();
+			}
+		});
+	}
 }
 
 function resetForm()

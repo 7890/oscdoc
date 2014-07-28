@@ -5,14 +5,24 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 . "$DIR"/oscdoc_common.sh
 
-if [ $# -ne 2 ]
+if [ $# -lt 2 ]
 then
-	echo "need params: <oscdoc XML file> <output directory>" >&2
+	echo "need params: <oscdoc XML file> <output directory> (<show tree 1>)" >&2
+	echo "example: oscdoc a.xml /tmp    #output to /tmp" >&2
+	echo "example: oscdoc a.xml /tmp 1  #show tree" >&2
+
 	exit 1
 fi
 
 DEFINITION="$1"
 OUTPUT_DIR="$2"
+
+SHOW_TREE=0
+
+if [ $# -eq 3 ]
+then
+	SHOW_TREE=1
+fi
 
 for tool in {xmlstarlet,sed,diff,bc,oschema_validate,oscdoc_aspect_map,dot,convert,oscdoc_aspect_graph,oscdoc_tree1}; \
 	do checkAvail "$tool"; done
@@ -160,18 +170,22 @@ rm -f "$tmp_ids"
 #id_count=`cat "$OUTPUT_DIR"/divs.ids | wc -l`
 
 #merge messages with externally generated ids, do escaping in <pre>
-xmlstarlet tr "$XSL3" -s ids="$tmp_ids_xml" "$tmp_divs_xml" \
+xmlstarlet tr "$XSL3" \
+	-s ids="$tmp_ids_xml" "$tmp_divs_xml" \
 	| replace_math_placeholders \
 > "$tmp_divs"
 
 rm -f "$tmp_divs_xml"
 rm -f "$tmp_ids_xml"
 
-print_label "creating tree..."
+if [ $SHOW_TREE -eq 1 ]
+then
+	print_label "creating tree..."
 
-json_data="`mktemp`"
-oscdoc_tree1 "$DEFINITION" > "$json_data"
-mv "$json_data" "$OUTPUT_DIR"/res/tree.json
+	json_data="`mktemp`"
+	oscdoc_tree1 "$DEFINITION" > "$json_data"
+	mv "$json_data" "$OUTPUT_DIR"/res/tree.json
+fi
 
 print_label "creating index.out..."
 
@@ -182,11 +196,13 @@ then
 	xmlstarlet tr "$XSL2" \
 	-s aspects_graph_tl="res/aspects_graph_tl.png" \
 	-s aspects_graph_svg="res/aspects_graph.svg" \
+	-s show_tree="$SHOW_TREE" \
 	"$DEFINITION" \
 	> "$tmp_index"
 else
 	#params relative to index.html
 	xmlstarlet tr "$XSL2" \
+	-s show_tree="$SHOW_TREE" \
 	"$DEFINITION" \
 	> "$tmp_index"
 fi
@@ -207,6 +223,15 @@ print_label "copying ressources to $OUTPUT_DIR..."
 
 #copy other needed resources for html page and archive
 cp -r "$RES_DIR"/* "$OUTPUT_DIR"/res
+
+if [ $SHOW_TREE -eq 0 ]
+then
+	rm -rf "$OUTPUT_DIR"/res/dynatree
+	rm -f "$OUTPUT_DIR"/res/jquery.dynatree.min.js
+	rm -f "$OUTPUT_DIR"/res/jquery-ui.custom.min.js
+	rm -f "$OUTPUT_DIR"/res/tree.json
+fi
+
 cp "$DEFINITION" "$OUTPUT_DIR"/res/unit.orig.xml
 
 #echo "output:" >&2

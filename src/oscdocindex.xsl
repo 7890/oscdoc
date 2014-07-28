@@ -5,6 +5,7 @@
 
   <xsl:param name="aspects_graph_tl" select="''"/>
   <xsl:param name="aspects_graph_svg" select="''"/>
+  <xsl:param name="show_tree" select="'0'"/>
 
   <xsl:variable name="infinity" select="'&#8734;'"/>
   <xsl:variable name="nbsp" select="'&#xA0;'"/>
@@ -17,12 +18,16 @@
         <script type="text/javascript" src="res/jquery-1.11.1.min.js"/>
         <script type="text/javascript" src="res/ObjTree.js"/>
         <script type="text/javascript" src="res/xml_data.js"/>
-        <script type="text/javascript" src="res/jquery-ui.custom.min.js"/>
-        <script type="text/javascript" src="res/jquery.dynatree.min.js"/>
+
+        <xsl:if test="$show_tree='1'">
+         <script type="text/javascript" src="res/jquery-ui.custom.min.js"/>
+         <script type="text/javascript" src="res/jquery.dynatree.min.js"/>
+         <link type="text/css" href="res/dynatree/ui.dynatree.css" rel="stylesheet"/>
+        </xsl:if>
 
         <link type="text/css" href="res/oscdoc.css" rel="stylesheet"/>
         <link type="text/css" href="res/xmlverbatim.css" rel="stylesheet"/>
-		<link type="text/css" href="res/dynatree/ui.dynatree.css" rel="stylesheet"/>
+
         <title>
           <xsl:value-of select="concat($name,' OSC API')"/>
         </title>
@@ -46,15 +51,17 @@
 
 <form action="#" id="form1" style="margin-top: 10px;">
 
-<input type="button" id="btn_tree_expand" onclick="javascript:treeExpandAll();" value="Expand All"></input>
-<input type="button" id="btn_tree_collapse" onclick="javascript:treeCollapseAll();" value="Collapse All"></input>
+<xsl:if test="$show_tree='1'">
+ <input type="button" id="btn_tree_expand" onclick="javascript:treeExpandAll();" value="Expand All"></input>
+ <input type="button" id="btn_tree_collapse" onclick="javascript:treeCollapseAll();" value="Collapse All"></input>
 
-<div id="tree"> </div>
+ <div id="tree"> </div>
 
-<input type="button" id="btn_tree_expand" onclick="javascript:treeExpandAll();" value="Expand All"></input>
-<input type="button" id="btn_tree_collapse" onclick="javascript:treeCollapseAll();" value="Collapse All"></input>
-<input type="button" id="btn_sync_tree" onclick="javascript:syncTree();" value="Sync Tree"></input>
-<br/><br/>
+ <input type="button" id="btn_tree_expand" onclick="javascript:treeExpandAll();" value="Expand All"></input>
+ <input type="button" id="btn_tree_collapse" onclick="javascript:treeCollapseAll();" value="Collapse All"></input>
+ <input type="button" id="btn_sync_tree" onclick="javascript:syncTree();" value="Sync Tree"></input>
+ <br/><br/>
+</xsl:if>
 
 <input type="button" id="btn_clear_input" onclick="javascript:clearInput();" value="Clear Input"></input>
 <input type="button" id="btn_reset_form" onclick="javascript:resetForm();" value="Reset"></input>
