@@ -305,12 +305,12 @@ $( jq( "some.id" ) )
 
 function showHelp()
 {
-	setDescription($('#__help').html());
+	setDescription($('#help__').html());
 }
 
 function showMeta()
 {
-	setDescription($('#__meta').html());
+	setDescription($('#meta__').html());
 }
 
 function addDescription(msg)
