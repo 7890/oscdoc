@@ -38,15 +38,13 @@
           <table style="width:100%;">
             <tr>
               <td style="vertical-align:top;width:1px;">
-                <img width="300px" height="0px" src="res/1pixel.png"/>
-
                 <div class="inputDiv">
                   <h1 style="margin-bottom: 0;">
                     <xsl:value-of select="concat($name,' OSC API')"/>
                   </h1>
 
                   <a href="#" onclick= "javascript:showMeta();" onfocus="javascript:showMeta();" style="outline: none;">Metadata</a>
-                  <xsl:value-of select="concat($nbsp,$nbsp)"/>
+                  <xsl:value-of select="' '"/>
                   <a href="#" onclick="javascript:showHelp();" onfocus="javascript:showHelp();" style="outline: none;">Documentation</a>
 
 <form action="#" id="form1" style="margin-top: 10px;">
@@ -83,7 +81,7 @@ Direction: <select id="opt1" name="direction">
 <option value="1">yes</option>
 <option value="0">no</option>
 <option value="2">only</option></select><br/>
-<textarea class="focused" rows="1" cols="32" wrap="soft" id="input1"/>
+<textarea class="focused" rows="1" cols="32" id="input1"/>
 </form>
 
                 </div>
@@ -151,13 +149,13 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
         <!-- end div outterDiv -->
         <script type="text/javascript" src="res/oscdoc.js"/>
 
-        <div id="__help" style="display: none;">
+        <div id="help__" style="display: none;">
           <xsl:if test="doc">
-            <xsl:copy-of select="doc"/>
+            <xsl:copy-of select="doc/*"/>
           </xsl:if>
         </div>
 
-        <div id="__meta" style="display: none;">
+        <div id="meta__" style="display: none;">
           <xsl:apply-templates select="meta"/>
         </div>
         <!-- ================================================ -->
