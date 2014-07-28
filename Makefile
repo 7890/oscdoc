@@ -1,7 +1,7 @@
 PREFIX ?= /usr/local
-INSTALLDIR = $(PREFIX)/bin
-RESOURCESDIR = $(INSTALLDIR)/oscdoc_res
-XSLDIR = $(INSTALLDIR)/oscdoc_xsl
+bindir = $(PREFIX)/bin
+XSLDIR = $(bindir)/oscdoc_xsl
+RESOURCESDIR = $(bindir)/oscdoc_res
 
 BUILDDIR = build
 
@@ -10,9 +10,9 @@ BLD = build
 LIB = lib
 CSS = css
 
-#TEST = test_data
-
 default: build
+
+all: build
 
 build: 
 
@@ -54,54 +54,53 @@ install:
 	@echo "oscdoc, osctxt0, oscdoc_aspect_map, oscdoc_aspect_graph"
 	@echo "tree_dyna, oscdoc_tree1"
 	@echo ""
-	@echo "INSTALLDIR: $(INSTALLDIR)"
+	@echo "DESTDIR: $(DESTDIR)"
+	@echo "bindir: $(bindir)"
 	@echo ""
 	@echo "'make install' needs to be run with root privileges, i.e."
 	@echo ""
 	@echo "sudo make install"
 	@echo ""
 
-	cp $(SRC)/oscdoc.sh $(INSTALLDIR)/oscdoc
-	cp $(SRC)/oscdoc_common.sh $(INSTALLDIR)/oscdoc_common.sh
+	cd $(BUILDDIR)/tree-1.7.0_dyna && make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
 
-	mkdir -p $(XSLDIR)
+	install -d $(DESTDIR)$(bindir)
 
-	cp $(SRC)/oschema2html.xsl $(XSLDIR)/
-	cp $(SRC)/oscdocindex.xsl $(XSLDIR)/
+	install -m755 $(SRC)/oscdoc.sh $(DESTDIR)$(bindir)/oscdoc
+	install -m755 $(SRC)/oscdoc_common.sh $(DESTDIR)$(bindir)/oscdoc_common.sh
+	install -m755 $(SRC)/osctxt0.sh $(DESTDIR)$(bindir)/osctxt0
+	install -m755 $(SRC)/oscdoc_aspect_map.sh $(DESTDIR)$(bindir)/oscdoc_aspect_map
+	install -m755 $(SRC)/oscdoc_aspect_graph.sh $(DESTDIR)$(bindir)/oscdoc_aspect_graph
+	install -m755 $(SRC)/oscdoc_tree1.sh $(DESTDIR)$(bindir)/oscdoc_tree1
 
-	cp $(LIB)/xmlverbatim.xsl $(XSLDIR)/
-#	cp $(LIB)/base64encoder.xsl $(INSTALLDIR)/
-#	cp $(LIB)/base64decoder.xsl $(INSTALLDIR)/
-#	cp $(LIB)/datamap.xml $(INSTALLDIR)/
+	install -d $(DESTDIR)$(XSLDIR)
 
-	mkdir -p $(RESOURCESDIR)
+	install -m644 $(SRC)/oschema2html.xsl $(DESTDIR)$(XSLDIR)/
+	install -m644 $(SRC)/oscdocindex.xsl $(DESTDIR)$(XSLDIR)/
+	install -m644 $(SRC)/osctxt0.xsl $(DESTDIR)$(XSLDIR)/
+	install -m644 $(SRC)/rewrite_message_paths.xsl $(DESTDIR)$(XSLDIR)/
+	install -m644 $(SRC)/merge_ext_ids.xsl $(DESTDIR)$(XSLDIR)/
 
-	cp $(LIB)/jquery-1.11.1.min.js $(RESOURCESDIR)/
-	cp $(LIB)/ObjTree.js $(RESOURCESDIR)/
-	cp $(LIB)/1pixel.png $(RESOURCESDIR)/
-	cp $(LIB)/draft.png $(RESOURCESDIR)/
-	cp $(LIB)/jquery.dynatree.min.js $(RESOURCESDIR)/
-	cp $(LIB)/jquery-ui.custom.min.js $(RESOURCESDIR)/
+	install -m644 $(LIB)/xmlverbatim.xsl $(DESTDIR)$(XSLDIR)/
+#	install -m644 $(LIB)/base64encoder.xsl $(DESTDIR)$(bindir)/
+#	install -m644 $(LIB)/base64decoder.xsl $(DESTDIR)$(bindir)/
+#	install -m644 $(LIB)/datamap.xml $(DESTDIR)$(bindir)/
 
-	cp $(CSS)/oscdoc.css $(RESOURCESDIR)/
-	cp $(CSS)/xmlverbatim.css $(RESOURCESDIR)/
-	cp -r $(CSS)/dynatree $(RESOURCESDIR)/
+	install -d $(DESTDIR)$(RESOURCESDIR)
 
-	cp $(SRC)/oscdoc.js $(RESOURCESDIR)/
+	install -m644 $(SRC)/oscdoc.js $(DESTDIR)$(RESOURCESDIR)/
 
-	cp $(SRC)/osctxt0.sh $(INSTALLDIR)/osctxt0
-	cp $(SRC)/osctxt0.xsl $(XSLDIR)/
+	install -m644 $(CSS)/oscdoc.css $(DESTDIR)$(RESOURCESDIR)/
+	install -m644 $(CSS)/xmlverbatim.css $(DESTDIR)$(RESOURCESDIR)/
 
-	cp $(SRC)/oscdoc_aspect_map.sh $(INSTALLDIR)/oscdoc_aspect_map
-	cp $(SRC)/oscdoc_aspect_graph.sh $(INSTALLDIR)/oscdoc_aspect_graph
+	cp -r $(CSS)/dynatree $(DESTDIR)$(RESOURCESDIR)/
 
-	cp $(SRC)/rewrite_message_paths.xsl $(XSLDIR)/
-
-	cp $(SRC)/merge_ext_ids.xsl $(XSLDIR)/
-
-	cd $(BUILDDIR)/tree-1.7.0_dyna && make install
-
-	cp $(SRC)/oscdoc_tree1.sh $(INSTALLDIR)/oscdoc_tree1
+	install -m644 $(LIB)/jquery-1.11.1.min.js $(DESTDIR)$(RESOURCESDIR)/
+	install -m644 $(LIB)/ObjTree.js $(DESTDIR)$(RESOURCESDIR)/
+	install -m644 $(LIB)/1pixel.png $(DESTDIR)$(RESOURCESDIR)/
+	install -m644 $(LIB)/draft.png $(DESTDIR)$(RESOURCESDIR)/
+	install -m644 $(LIB)/jquery.dynatree.min.js $(DESTDIR)$(RESOURCESDIR)/
+	install -m644 $(LIB)/jquery-ui.custom.min.js $(DESTDIR)$(RESOURCESDIR)/
 
 	@echo ""
 	@echo "use: oscdoc test_data/unit.xml /tmp"
@@ -116,46 +115,49 @@ uninstall:
 	@echo "uninstalling oscdoc tools"
 	@echo "-------------------------"
 	@echo ""
-	@echo "INSTALLDIR: $(INSTALLDIR)"
+	@echo "DESTDIR: $(DESTDIR)"
+	@echo "bindir: $(bindir)"
 	@echo ""
 	@echo "'make uninstall' needs to be run with root privileges, i.e."
 	@echo ""
 	@echo "sudo make uninstall"
 	@echo ""
 
-	rm -f $(INSTALLDIR)/oscdoc
-	rm -f $(INSTALLDIR)/oscdoc_common.sh
+	cd $(BUILDDIR)/tree-1.7.0_dyna && make uninstall DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
 
-#legacy uninstall
-	rm -f $(INSTALLDIR)/oschema2html.xsl
-	rm -f $(INSTALLDIR)/oscdocindex.xsl
-	rm -f $(INSTALLDIR)/datamap.xml
+	rm -f $(DESTDIR)$(bindir)/oscdoc
+	rm -f $(DESTDIR)$(bindir)/oscdoc_common.sh
+	rm -f $(DESTDIR)$(bindir)/osctxt0
+	rm -f $(DESTDIR)$(bindir)/oscdoc_aspect_map
+	rm -f $(DESTDIR)$(bindir)/oscdoc_aspect_graph
+	rm -f $(DESTDIR)$(bindir)/oscdoc_tree1
 
-	rm -f $(INSTALLDIR)/xmlverbatim.xsl
-	rm -f $(INSTALLDIR)/base64encoder.xsl
-	rm -f $(INSTALLDIR)/base64decoder.xsl
-#--
+	rm -f $(DESTDIR)$(XSLDIR)/oschema2html.xsl
+	rm -f $(DESTDIR)$(XSLDIR)/oscdocindex.xsl
+	rm -f $(DESTDIR)$(XSLDIR)/osctxt0.xsl
+	rm -f $(DESTDIR)$(XSLDIR)/rewrite_message_paths.xsl
+	rm -f $(DESTDIR)$(XSLDIR)/merge_ext_ids.xsl
+	rm -f $(DESTDIR)$(XSLDIR)/xmlverbatim.xsl
 
-	rm -rf $(RESOURCESDIR)
-	rm -rf $(XSLDIR)
+	-rmdir $(DESTDIR)$(XSLDIR)
 
-	rm -f $(INSTALLDIR)/osctxt0
+	rm -rf $(DESTDIR)$(RESOURCESDIR)/dynatree
 
-#legacy uninstall
-	rm -f $(INSTALLDIR)/osctxt0.xsl
-#--
+	rm -f $(DESTDIR)$(RESOURCESDIR)/oscdoc.js
 
-	rm -f $(INSTALLDIR)/oscdoc_aspect_map
-	rm -f $(INSTALLDIR)/oscdoc_aspect_graph
+	rm -f $(DESTDIR)$(RESOURCESDIR)/oscdoc.css
+	rm -f $(DESTDIR)$(RESOURCESDIR)/xmlverbatim.css
 
-#legacy uninstall
-	rm -f $(INSTALLDIR)/rewrite_message_paths.xsl
-	rm -f $(INSTALLDIR)/merge_ext_ids.xsl
-#--
+	rm -f $(DESTDIR)$(RESOURCESDIR)/jquery-1.11.1.min.js
+	rm -f $(DESTDIR)$(RESOURCESDIR)/ObjTree.js
+	rm -f $(DESTDIR)$(RESOURCESDIR)/1pixel.png
+	rm -f $(DESTDIR)$(RESOURCESDIR)/draft.png
+	rm -f $(DESTDIR)$(RESOURCESDIR)/jquery.dynatree.min.js
+	rm -f $(DESTDIR)$(RESOURCESDIR)/jquery-ui.custom.min.js
 
-	cd $(BUILDDIR)/tree-1.7.0_dyna && make uninstall
+	-rmdir $(DESTDIR)$(RESOURCESDIR)
 
-	rm -f $(INSTALLDIR)/oscdoc_tree1
+	-rmdir $(DESTDIR)$(bindir)
 
 	@echo ""
 	@echo "done."
@@ -164,3 +166,4 @@ uninstall:
 clean:
 	rm -rf $(BUILDDIR)
 
+.PHONY: all build clean install uninstall
