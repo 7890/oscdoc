@@ -6,6 +6,7 @@
   <xsl:param name="aspects_graph_tl" select="''"/>
   <xsl:param name="aspects_graph_svg" select="''"/>
   <xsl:param name="show_tree" select="'0'"/>
+  <xsl:param name="messages_digest" select="''"/>
 
   <xsl:variable name="infinity" select="'&#8734;'"/>
   <xsl:variable name="nbsp" select="'&#xA0;'"/>
@@ -46,6 +47,11 @@
                   <a href="#" onclick= "javascript:showMeta();" onfocus="javascript:showMeta();" style="outline: none;">Metadata</a>
                   <xsl:value-of select="' '"/>
                   <a href="#" onclick="javascript:showHelp();" onfocus="javascript:showHelp();" style="outline: none;">Documentation</a>
+
+                 <xsl:if test="$messages_digest != ''">
+                   <xsl:value-of select="' '"/>
+                   <a href="{$messages_digest}" target="_blank">Messages Digest</a>
+                 </xsl:if>
 
 <form action="#" id="form1" style="margin-top: 10px;">
 

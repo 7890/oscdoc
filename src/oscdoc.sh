@@ -105,6 +105,9 @@ else
 	GRAPH_SUCCESS=1
 fi
 
+print_label "creating messages digest..."
+osctxt0 "$DEFINITION" > "$OUTPUT_DIR"/res/messages_digest.txt
+
 print_label "creating xml_data.js..."
 
 #escape for js string ''
@@ -197,12 +200,14 @@ then
 	-s aspects_graph_tl="res/aspects_graph_tl.png" \
 	-s aspects_graph_svg="res/aspects_graph.svg" \
 	-s show_tree="$SHOW_TREE" \
+	-s messages_digest="res/messages_digest.txt" \
 	"$DEFINITION" \
 	> "$tmp_index"
 else
 	#params relative to index.html
 	xmlstarlet tr --omit-decl "$XSL2" \
 	-s show_tree="$SHOW_TREE" \
+	-s messages_digest="res/messages_digest.txt" \
 	"$DEFINITION" \
 	> "$tmp_index"
 fi
