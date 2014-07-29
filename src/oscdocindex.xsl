@@ -267,11 +267,7 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
         <span class="value">
           <xsl:value-of select="."/>
         </span>
-        <xsl:value-of select="' ( cmd_option: '"/>
-        <span class="value">
-          <xsl:value-of select="@cmd_option"/>
-        </span>
-        <xsl:value-of select="' )'"/>
+      <xsl:value-of select="concat(' (cmd_option: &amp;apos;',@cmd_option,'&amp;apos;)')"/>
      </xsl:if>
   
     <xsl:if test="not(@cmd_option)">
