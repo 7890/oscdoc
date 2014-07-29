@@ -175,8 +175,8 @@ rm -f "$tmp_ids"
 #merge messages with externally generated ids, do escaping in <pre>
 xmlstarlet tr "$XSL3" \
 	-s ids="$tmp_ids_xml" "$tmp_divs_xml" \
-	| replace_math_placeholders \
 > "$tmp_divs"
+#	| replace_math_placeholders \
 
 rm -f "$tmp_divs_xml"
 rm -f "$tmp_ids_xml"
@@ -226,7 +226,7 @@ tmp_index_final="`mktemp`"
 
 cat - > "$tmp_index_final" << __EOF__
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-       "http://www.w3.org/TR/html4/loose.dtd">
+        "http://www.w3.org/TR/html4/loose.dtd">
 __EOF__
 
 cat "$tmp_index" | grep -B10000000 '<!--DIVS-->' >> "$tmp_index_final"
@@ -235,9 +235,28 @@ cat "$tmp_index" | grep -A10000000 '<!--DIVS-->' >> "$tmp_index_final"
 
 #sed '/<!--DIVS-->/r' "$tmp_divs" "$tmp_index" > "$tmp_index_final"
 
+#mv "$tmp_index_final" "$OUTPUT_DIR/index.html"
+
+#if tidy available, use it
+which "tidy" >/dev/null 2>&1
+ret=$?
+if [ $ret -eq 0 ]
+#if [ "x" = "y" ]
+then
+	print_label "found tidy"
+
+	#tidy won't know the msg tags. 
+	cat "$tmp_index_final" | entity_de_esc \
+	| tidy --utf8 --wrap 200 -q --force-output yes - \
+	> "$OUTPUT_DIR/index.html" 2>/dev/null
+else
+	cat "$tmp_index_final" | entity_de_esc \
+	> "$OUTPUT_DIR/index.html"
+fi
+
 print_label "cleaning up..."
 
-mv "$tmp_index_final" "$OUTPUT_DIR/index.html"
+rm -f "$tmp_index_final"
 
 rm -f "$tmp_divs"
 rm -f "$tmp_index"
