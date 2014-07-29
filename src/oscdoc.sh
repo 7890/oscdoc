@@ -105,6 +105,27 @@ else
 	GRAPH_SUCCESS=1
 fi
 
+#if aspell available, use it
+which "aspell" >/dev/null 2>&1
+ret=$?
+if [ $ret -eq 0 ]
+#if [ "x" = "y" ]
+then
+	print_label "found aspell, suspect word list:"
+
+	cat "$DEFINITION" \
+		| xmlstarlet sel -t -m "//desc|//doc" -c . \
+		| aspell --list | sort | uniq \
+		| grep -v "pre" | grep -vi "xml" | grep -vi "osc" | grep -v param \
+		| grep -vi udp | grep -v lmin | grep -v lmax | grep -v firstname \
+		| grep -v lastname | grep -v typetag | grep -v ascii | grep -v conf \
+		| grep -v desc
+#rudimentary list
+
+else
+	print_label "/!\\ aspell not found! won't check spelling."
+fi
+
 print_label "creating messages digest..."
 osctxt0 "$DEFINITION" > "$OUTPUT_DIR"/res/messages_digest.txt
 
