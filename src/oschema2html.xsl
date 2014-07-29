@@ -414,19 +414,28 @@ needs removal of $nl $ind -> make html
 -->
   <xsl:template match="param_s/@min_length">
     <h4>
-      <xsl:value-of select="concat('Minimum Length: ',.)"/>
+      <xsl:value-of select="'Minimum Length: '"/>
+        <span class="value">
+          <xsl:value-of select="."/>
+        </span>
     </h4>
   </xsl:template>
   <!-- =============================== -->
   <xsl:template match="param_s/@max_length">
     <h4>
-      <xsl:value-of select="concat('Maximum Length: ',.)"/>
+      <xsl:value-of select="'Maximum Length: '"/>
+        <span class="value">
+          <xsl:value-of select="."/>
+        </span>
     </h4>
   </xsl:template>
   <!-- =============================== -->
   <xsl:template match="param_s/@default">
     <h4>
-      <xsl:value-of select="concat('Default: ',.)"/>
+      <xsl:value-of select="'Default: '"/>
+        <span class="value">
+          <xsl:value-of select="."/>
+        </span>
     </h4>
   </xsl:template>
   <!-- =============================== -->
@@ -442,13 +451,19 @@ needs removal of $nl $ind -> make html
   <!-- =============================== -->
   <xsl:template match="param_b/@min_size">
     <h4>
-      <xsl:value-of select="concat('Minimum Size: ',.)"/>
+      <xsl:value-of select="'Minimum Size: '"/>
+        <span class="value">
+          <xsl:value-of select="."/>
+        </span>
     </h4>
   </xsl:template>
   <!-- =============================== -->
   <xsl:template match="param_b/@max_size">
     <h4>
-      <xsl:value-of select="concat('Maximum Size: ',.)"/>
+      <xsl:value-of select="'Maximum Size: '"/>
+        <span class="value">
+          <xsl:value-of select="."/>
+        </span>
     </h4>
   </xsl:template>
   <!-- =============================== -->
