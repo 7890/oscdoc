@@ -111,9 +111,9 @@
         <xsl:apply-templates select="target"/>
       </xsl:if>
 
-      <xsl:if test="param_i | param_h | param_f | param_d | param_s | param_b | param_c | param_X | param__">
+      <xsl:if test="param_i | param_h | param_f | param_d | param_s | param_b | param_c | param_T | param_F | param_I | param_N | param_t | param_X | param__">
         <h2>Parameters</h2>
-          <xsl:apply-templates select="param_i | param_h | param_f | param_d | param_s | param_b | param_c | param_X | param__"/>
+          <xsl:apply-templates select="param_i | param_h | param_f | param_d | param_s | param_b | param_c | param_T | param_F | param_I | param_N | param_t | param_X | param__"/>
       </xsl:if>
 
     </xsl:element>
@@ -363,6 +363,11 @@
       <xsl:when test="name()='param_s'">s</xsl:when>
       <xsl:when test="name()='param_b'">b</xsl:when>
       <xsl:when test="name()='param_c'">c</xsl:when>
+      <xsl:when test="name()='param_T'">T</xsl:when>
+      <xsl:when test="name()='param_F'">F</xsl:when>
+      <xsl:when test="name()='param_N'">N</xsl:when>
+      <xsl:when test="name()='param_I'">I</xsl:when>
+      <xsl:when test="name()='param_t'">t</xsl:when>
       <xsl:when test="name()='param_X'">X</xsl:when>
       <xsl:when test="name()='param__'">_</xsl:when>
       <xsl:otherwise>
@@ -375,7 +380,7 @@
     <xsl:value-of select="concat(' (',.,')')"/>
   </xsl:template>
   <!-- =============================== -->
-  <xsl:template match="param_i | param_h | param_f | param_d | param_s | param_b | param_c | param_X | param__">
+  <xsl:template match="param_i | param_h | param_f | param_d | param_s | param_b | param_c | param_T | param_F | param_I | param_N | param_t | param_X | param__">
 
     <xsl:variable name="type">
       <xsl:call-template name="get_typetag_from_node_name"/>
@@ -411,12 +416,6 @@ needs removal of $nl $ind -> make html
   <xsl:template match="param_s/@max_length">
     <h4>
       <xsl:value-of select="concat('Maximum Length: ',.)"/>
-    </h4>
-  </xsl:template>
-  <!-- =============================== -->
-  <xsl:template match="param_s/@regex">
-    <h4>
-      <xsl:value-of select="concat('Regular Expression Filter: ',.)"/>
     </h4>
   </xsl:template>
   <!-- =============================== -->
@@ -457,7 +456,8 @@ needs removal of $nl $ind -> make html
     <xsl:apply-templates select="@*[not(name(.)='units')]"/>
   </xsl:template>
   <!-- =============================== -->
-  <!--
+
+<!--
   <xsl:template match="param_X">
     <xsl:value-of select="concat($ind,position(),') X: ',@symbol)"/>
     <xsl:apply-templates select="@units"/>
@@ -468,6 +468,7 @@ needs removal of $nl $ind -> make html
     <xsl:apply-templates select="@*[not(name(.)='units')]"/>
   </xsl:template>
 -->
+
   <!-- =============================== -->
   <xsl:template match="desc[.!='']">
 
