@@ -119,14 +119,14 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
  -->
                     <li><strong>f</strong>: float, signed 32 bit float (4 bytes), -3.40282347E+38 - 3.40282347E+38 (smallest: 1.175494351E-38)</li>
                     <li><strong>d</strong>: double, signed 64 bit float (8 bytes), -1.797693E+308 - 1.797693E+308 (smallest: 2.225074E-308)</li>
-                    <li><strong>s</strong>: string</li>
-                    <li><strong>b</strong>: blob</li>
+                    <li><strong>s</strong>: string (limited in length)</li>
+                    <li><strong>b</strong>: blob, arbitrary byte sequence (limited in length)</li>
+                    <li><strong>t</strong>: timetag, seconds since Jan 1st 1900 in the UTC timezone + fractions expressed as 1/2^32nds of a second</li>
                     <li><strong>c</strong>: char, unsigned 8-bit char, decimal 0-255</li>
                     <li><strong>T</strong>: Symbol representing True</li>
                     <li><strong>F</strong>: Symbol representing False</li>
                     <li><strong>N</strong>: Symbol representing Nil</li>
                     <li><strong>I</strong>: Symbol representing Infinitum</li>
-
                     <li><strong>X</strong>: unknown / custom parameter type. arbitrary content</li>
                     <li><strong>_</strong>: last expressed param in typetag can occur 0 to n times</li>
                     <li><strong>*</strong>: anything (also: handled by reusable aspect)</li>
