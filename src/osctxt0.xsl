@@ -34,8 +34,8 @@
   <xsl:template match="message_in | message_out">
     <xsl:variable name="dir" select="substring-after(name(.),'_')"/>
     <xsl:value-of select="concat($dir,' ',@pattern,' ',@typetag)"/>
-    <xsl:if test="@uri">
-      <xsl:value-of select="concat(' @',@uri,' (',@doc_origin,')')"/>
+    <xsl:if test="desc">
+      <xsl:value-of select="concat(' ',desc[1])"/>
     </xsl:if>
     <xsl:value-of select="$nl"/>
   </xsl:template>
