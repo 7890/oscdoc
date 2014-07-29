@@ -250,6 +250,8 @@ then
 	| tidy --utf8 --wrap 200 -q --force-output yes - \
 	> "$OUTPUT_DIR/index.html" 2>/dev/null
 else
+	print_label "/!\\ tidy not found! HTML will not be tidy"
+
 	cat "$tmp_index_final" | entity_de_esc \
 	> "$OUTPUT_DIR/index.html"
 fi
