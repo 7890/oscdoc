@@ -165,11 +165,32 @@ function translate_base64_to_attribute()
 
 function replace_math_placeholders()
 {
-	sed 's/_LT_/</g' \
-	| sed 's/_LTE_/<=/g' \
-	| sed 's/_GT_/>/g' \
-	| sed 's/_GTE_/>=/g' \
-	| sed 's/_INF_/\&infin;/g'
+
+#	sed 's/_LT_/</g' \
+#	| sed 's/_LTE_/<=/g' \
+#	| sed 's/_GT_/>/g' \
+#	| sed 's/_GTE_/>=/g' \
+#	| sed 's/_INF_/\&#8734;/g'
+
+	sed 's/_LT_/\&amp;lt;/g' \
+	| sed 's/_LTE_/\&amp;le;/g' \
+	| sed 's/_GT_/\&amp;gt;/g' \
+	| sed 's/_GTE_/\&amp;ge;/g' \
+	| sed 's/_INF_/\&amp;infin;/g'
+}
+
+function entity_de_esc()
+{
+#	sed 's/\&amp;lt;/\&lt;/g' \
+#	| sed 's/\&amp;le;/\&le;/g' \
+#	| sed 's/\&amp;gt;/\&gt;/g' \
+#	| sed 's/\&amp;ge;/\&ge;/g' \
+#	| sed 's/\&amp;infin;/\&infin;/g' \
+#	| sed 's/\&amp;nbsp;/\&nbsp;/g'
+
+	#double escaped form &amp;entity; -> &entity;
+	sed 's/\&[a-Z0-9]\{1,\};\([a-Z0-9]\{1,\}\);/\&\1;/g'
+
 }
 
 function cat_local_or_remote_file()
