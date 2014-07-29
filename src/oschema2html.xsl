@@ -10,7 +10,12 @@
 
   <xsl:variable name="oscdoc_version">140721.1</xsl:variable>
   <xsl:variable name="nl" select="'&#10;'"/>
+
+<!--
   <xsl:variable name="nbsp" select="'&#xA0;'"/>
+-->
+  <xsl:variable name="nbsp" select="'&amp;nbsp;'"/>
+
   <!-- <xsl:strip-space elements="*"/> -->
   <!-- =============================== -->
   <xsl:template match="/">
@@ -226,9 +231,9 @@
     <xsl:call-template name="format_range">
       <xsl:with-param name="descriptor" select="'[...]'"/>
       <xsl:with-param name="min" select="@min"/>
-      <xsl:with-param name="comp1" select="'_LTE_'"/>
+      <xsl:with-param name="comp1" select="'&amp;le;'"/>
       <xsl:with-param name="symbol" select="../@symbol"/>
-      <xsl:with-param name="comp2" select="'_LTE_'"/>
+      <xsl:with-param name="comp2" select="'&amp;le;'"/>
       <xsl:with-param name="max" select="@max"/>
       <xsl:with-param name="default" select="@default"/>
     </xsl:call-template>
@@ -240,9 +245,9 @@
     <xsl:call-template name="format_range">
       <xsl:with-param name="descriptor" select="'[...['"/>
       <xsl:with-param name="min" select="@min"/>
-      <xsl:with-param name="comp1" select="'_LTE_'"/>
+      <xsl:with-param name="comp1" select="'&amp;le;'"/>
       <xsl:with-param name="symbol" select="../@symbol"/>
-      <xsl:with-param name="comp2" select="'_LT_'"/>
+      <xsl:with-param name="comp2" select="'&amp;lt;'"/>
       <xsl:with-param name="max" select="@max"/>
       <xsl:with-param name="default" select="@default"/>
     </xsl:call-template>
@@ -254,9 +259,9 @@
     <xsl:call-template name="format_range">
       <xsl:with-param name="descriptor" select="']...]'"/>
       <xsl:with-param name="min" select="@min"/>
-      <xsl:with-param name="comp1" select="'_LT_'"/>
+      <xsl:with-param name="comp1" select="'&amp;lt;'"/>
       <xsl:with-param name="symbol" select="../@symbol"/>
-      <xsl:with-param name="comp2" select="'_LTE_'"/>
+      <xsl:with-param name="comp2" select="'&amp;le;'"/>
       <xsl:with-param name="max" select="@max"/>
       <xsl:with-param name="default" select="@default"/>
     </xsl:call-template>
@@ -267,9 +272,9 @@
     <xsl:call-template name="format_range">
       <xsl:with-param name="descriptor" select="']...['"/>
       <xsl:with-param name="min" select="@min"/>
-      <xsl:with-param name="comp1" select="'_LT_'"/>
+      <xsl:with-param name="comp1" select="'&amp;lt;'"/>
       <xsl:with-param name="symbol" select="../@symbol"/>
-      <xsl:with-param name="comp2" select="'_LT_'"/>
+      <xsl:with-param name="comp2" select="'&amp;lt;'"/>
       <xsl:with-param name="max" select="@max"/>
       <xsl:with-param name="default" select="@default"/>
     </xsl:call-template>
@@ -278,12 +283,12 @@
   <!-- =============================== -->
   <xsl:template match="range_min_inf[@lmin='['] | param_i//range_min_inf | param_h//range_min_inf">
     <xsl:call-template name="format_range">
-      <xsl:with-param name="descriptor" select="'[..._INF_'"/>
+      <xsl:with-param name="descriptor" select="'[...&amp;infin;'"/>
       <xsl:with-param name="min" select="@min"/>
-      <xsl:with-param name="comp1" select="'_LTE_'"/>
+      <xsl:with-param name="comp1" select="'&amp;le;'"/>
       <xsl:with-param name="symbol" select="../@symbol"/>
-      <xsl:with-param name="comp2" select="'_LT_'"/>
-      <xsl:with-param name="max" select="'_INF_'"/>
+      <xsl:with-param name="comp2" select="'&amp;lt;'"/>
+      <xsl:with-param name="max" select="'&amp;infin;'"/>
       <xsl:with-param name="default" select="@default"/>
     </xsl:call-template>
     <xsl:apply-templates/>
@@ -291,12 +296,12 @@
   <!-- =============================== -->
   <xsl:template match="range_min_inf[@lmin=']']">
     <xsl:call-template name="format_range">
-      <xsl:with-param name="descriptor" select="']..._INF_'"/>
+      <xsl:with-param name="descriptor" select="']...&amp;infin;'"/>
       <xsl:with-param name="min" select="@min"/>
-      <xsl:with-param name="comp1" select="'_LT_'"/>
+      <xsl:with-param name="comp1" select="'&amp;lt;'"/>
       <xsl:with-param name="symbol" select="../@symbol"/>
-      <xsl:with-param name="comp2" select="'_LT_'"/>
-      <xsl:with-param name="max" select="'_INF_'"/>
+      <xsl:with-param name="comp2" select="'&amp;lt;'"/>
+      <xsl:with-param name="max" select="'&amp;infin;'"/>
       <xsl:with-param name="default" select="@default"/>
     </xsl:call-template>
     <xsl:apply-templates/>
@@ -304,11 +309,11 @@
   <!-- =============================== -->
   <xsl:template match="range_inf_max[@lmax=']'] | param_i//range_inf_max | param_h//range_inf_max">
     <xsl:call-template name="format_range">
-      <xsl:with-param name="descriptor" select="'_INF_...]'"/>
-      <xsl:with-param name="min" select="'-_INF_'"/>
-      <xsl:with-param name="comp1" select="'_LT_'"/>
+      <xsl:with-param name="descriptor" select="'&amp;infin;...]'"/>
+      <xsl:with-param name="min" select="'-&amp;infin;'"/>
+      <xsl:with-param name="comp1" select="'&amp;lt;'"/>
       <xsl:with-param name="symbol" select="../@symbol"/>
-      <xsl:with-param name="comp2" select="'_LTE_'"/>
+      <xsl:with-param name="comp2" select="'&amp;le;'"/>
       <xsl:with-param name="max" select="@max"/>
       <xsl:with-param name="default" select="@default"/>
     </xsl:call-template>
@@ -317,11 +322,11 @@
   <!-- =============================== -->
   <xsl:template match="range_inf_max[@lmax='[']">
     <xsl:call-template name="format_range">
-      <xsl:with-param name="descriptor" select="'_INF_...['"/>
-      <xsl:with-param name="min" select="'-_INF_'"/>
-      <xsl:with-param name="comp1" select="'_LT_'"/>
+      <xsl:with-param name="descriptor" select="'&amp;infin;...['"/>
+      <xsl:with-param name="min" select="'-&amp;infin;'"/>
+      <xsl:with-param name="comp1" select="'&amp;lt;'"/>
       <xsl:with-param name="symbol" select="../@symbol"/>
-      <xsl:with-param name="comp2" select="'_LT_'"/>
+      <xsl:with-param name="comp2" select="'&amp;lt;'"/>
       <xsl:with-param name="max" select="@max"/>
       <xsl:with-param name="default" select="@default"/>
     </xsl:call-template>
@@ -330,12 +335,12 @@
   <!-- =============================== -->
   <xsl:template match="range_inf_inf">
     <xsl:call-template name="format_range">
-      <xsl:with-param name="descriptor" select="'_INF_..._INF_'"/>
-      <xsl:with-param name="min" select="'-_INF_'"/>
-      <xsl:with-param name="comp1" select="'_LT_'"/>
+      <xsl:with-param name="descriptor" select="'&amp;infin;...&amp;infin;'"/>
+      <xsl:with-param name="min" select="'-&amp;infin;'"/>
+      <xsl:with-param name="comp1" select="'&amp;lt;'"/>
       <xsl:with-param name="symbol" select="../@symbol"/>
-      <xsl:with-param name="comp2" select="'_LT_'"/>
-      <xsl:with-param name="max" select="'_INF_'"/>
+      <xsl:with-param name="comp2" select="'&amp;lt;'"/>
+      <xsl:with-param name="max" select="'&amp;infin;'"/>
       <xsl:with-param name="default" select="@default"/>
     </xsl:call-template>
     <xsl:apply-templates/>
