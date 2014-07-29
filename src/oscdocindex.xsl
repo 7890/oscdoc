@@ -196,6 +196,10 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
     </h4>
     <xsl:apply-templates select="author"/>
     <xsl:apply-templates select="url"/>
+
+    <xsl:apply-templates select="version"/>
+    <xsl:apply-templates select="default_settings/conf"/>
+
     <xsl:call-template name="meta_aspects"/>
     <xsl:apply-templates select="desc"/>
     <xsl:apply-templates select="custom"/>
@@ -226,14 +230,59 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
   <!-- =========================== -->
   <xsl:template match="meta/url">
     <xsl:if test="position()=1">
-      <h3>urls</h3>
+      <h3>URLs</h3>
     </xsl:if>
     <h4>
+      <xsl:if test="@title">
+      <xsl:value-of select="concat(@title,': ')"/>
+      </xsl:if>
+
       <a href="{.}" target="_blank">
         <xsl:value-of select="."/>
       </a>
     </h4>
   </xsl:template>
+
+  <!-- =========================== -->
+  <xsl:template match="meta/version">
+    <xsl:if test="position()=1">
+      <h3>Versions</h3>
+    </xsl:if>
+    <h4>
+      <xsl:value-of select="concat(@type,': ')"/>
+        <span class="value">
+          <xsl:value-of select="."/>
+        </span>
+    </h4>
+  </xsl:template>
+
+  <!-- =========================== -->
+  <xsl:template match="meta/default_settings/conf">
+    <xsl:if test="position()=1">
+      <h3>Default Settings</h3>
+    </xsl:if>
+    <h4>
+     <xsl:if test="@cmd_option">
+      <xsl:value-of select="concat(@type,': ')"/>
+        <span class="value">
+          <xsl:value-of select="."/>
+        </span>
+        <xsl:value-of select="' ( cmd_option: '"/>
+        <span class="value">
+          <xsl:value-of select="@cmd_option"/>
+        </span>
+        <xsl:value-of select="' )'"/>
+     </xsl:if>
+  
+    <xsl:if test="not(@cmd_option)">
+      <xsl:value-of select="concat(@type,': ')"/>
+        <span class="value">
+          <xsl:value-of select="."/>
+        </span>
+     </xsl:if>
+    </h4>
+  </xsl:template>
+
   <!-- =========================== -->
   <xsl:template match="desc">
     <xsl:value-of select="."/>
