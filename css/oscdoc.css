@@ -81,6 +81,7 @@ div.listDiv
 	border: Navy 1px dotted;
 	margin: 0px;
 	padding: 0px;
+	font: 11pt monospace;
 	background-color: #eff;
 	overflow-x: hidden;
 	white-space: nowrap;
