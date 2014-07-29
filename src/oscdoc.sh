@@ -240,8 +240,8 @@ cat "$tmp_index" | grep -A10000000 '<!--DIVS-->' >> "$tmp_index_final"
 #if tidy available, use it
 which "tidy" >/dev/null 2>&1
 ret=$?
-if [ $ret -eq 0 ]
-#if [ "x" = "y" ]
+#if [ $ret -eq 0 ]
+if [ "x" = "y" ]
 then
 	print_label "found tidy"
 
