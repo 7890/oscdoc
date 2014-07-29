@@ -8,8 +8,15 @@
   <xsl:param name="show_tree" select="'0'"/>
   <xsl:param name="messages_digest" select="''"/>
 
+<!--
   <xsl:variable name="infinity" select="'&#8734;'"/>
+-->
+  <xsl:variable name="infinity" select="'&amp;infin;'"/>
+<!--
   <xsl:variable name="nbsp" select="'&#xA0;'"/>
+-->
+  <xsl:variable name="nbsp" select="'&amp;nbsp;'"/>
+
   <!-- //tb/1407 -->
   <!-- =========================== -->
   <xsl:template match="/osc_unit">
@@ -245,7 +252,7 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
     <xsl:if test="$aspects_graph_tl != '' and $aspects_graph_svg != ''">
       <h3>Aspects Graph</h3>
          <a href="{$aspects_graph_svg}" target="_blank">
-            <img src="{$aspects_graph_tl}"/>
+            <img src="{$aspects_graph_tl}" alt="Aspect Graph Image"/>
          </a>
     </xsl:if>
   </xsl:template>
