@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <xsl:import href="../lib/base64encoder.xsl"/>
-  <xsl:import href="../lib/base64decoder.xsl"/>
   <xsl:output method="xml" omit-xml-declaration="yes" encoding="UTF-8" indent="yes"/>
   <!--http://stackoverflow.com/questions/9548104/add-attribute-to-tag-with-xslt-->
   <!-- this template is applied by default to all nodes and attributes -->
