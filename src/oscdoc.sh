@@ -119,8 +119,10 @@ then
 		| grep -v pre | grep -vi xml | grep -vi osc | grep -v param \
 		| grep -vi udp | grep -v lmin | grep -v lmax | grep -v firstname \
 		| grep -v lastname | grep -v typetag | grep -v ascii | grep -v conf \
-		| grep -v desc
+		| grep -v desc | grep -v lt | grep -v gt | grep -vi api | grep -v IP \
+		| grep -v localhost
 #rudimentary list
+#needs to be an external list
 #need custom vocabulary
 
 else
