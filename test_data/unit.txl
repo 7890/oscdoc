@@ -23,12 +23,18 @@ format_version 1.1
 =div
 class ascii
 .pre \\
-|
-| << >>  :o)
-| \
-|  \
-|   \
-|
+
+ << >>  :o)
+ \
+  \
+   \
+
+http://en.wikipedia.org/wiki/Monospace_font#Use_in_ASCII_art
+┌─┐ ┌┬┐ [example of line drawing characters]
+│ │ ├┼┤ [requires fixed-width, especially with spaces]
+└─┘ └┴┘ 
+
+\\.
 .*
 
 //first message_in
