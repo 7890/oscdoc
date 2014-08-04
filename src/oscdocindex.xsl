@@ -180,15 +180,17 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
   <!-- =========================== -->
   <xsl:template match="meta">
     <h2>Metadata</h2>
-    <h3>name</h3>
+    <h3>Name</h3>
     <h4>
       <xsl:value-of select="name"/>
     </h4>
-    <h3>uri</h3>
+    <h3>URI (Unique Namespace for this Unit)</h3>
     <h4>
+<span class="value">
       <xsl:value-of select="uri"/>
+</span>
     </h4>
-    <h3>doc_origin</h3>
+    <h3>Document Origin (oschmea Instance)</h3>
     <h4>
       <a href="{doc_origin}" target="_blank">
         <xsl:value-of select="doc_origin"/>
@@ -207,7 +209,7 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
   <!-- =========================== -->
   <xsl:template match="meta/author">
     <xsl:if test="position()=1">
-      <h3>authors</h3>
+      <h3>Authors</h3>
     </xsl:if>
     <h4>
       <xsl:apply-templates select="firstname"/>
@@ -278,10 +280,16 @@ http://steve.hollasch.net/cgindex/coding/ieeefloat.html
      </xsl:if>
     </h4>
   </xsl:template>
-
-  <!-- =========================== -->
-  <xsl:template match="desc">
-    <xsl:value-of select="."/>
+  <!-- =============================== -->
+  <xsl:template match="desc[.!='']">
+    <xsl:if test="position()=1 ">
+      <h2>Description</h2>
+    </xsl:if>
+    <ul>
+       <li class="double">
+         <xsl:value-of select="normalize-space(.)"/>
+       </li>
+    </ul>
   </xsl:template>
   <!-- =========================== -->
   <xsl:template match="meta/custom">
