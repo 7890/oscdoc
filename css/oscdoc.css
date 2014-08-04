@@ -171,9 +171,21 @@ table.tstyle
 	border-style: solid;
 }
 
+span.symbol
+{
+	font: 1.2em monospace;
+	font-weight: bold;
+/*	background: #ffe;
+	color: #143;
+*/
+}
+
 span.value
 {
+	font: 1.2em monospace;
+	font-weight: bold;
 	background: #ffe;
 	color: #143;
 }
+
 
