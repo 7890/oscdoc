@@ -189,7 +189,7 @@ function entity_de_esc()
 #	| sed 's/\&amp;nbsp;/\&nbsp;/g'
 
 	#double escaped form &amp;entity; -> &entity;
-	sed 's/\&[a-Z0-9]\{1,\};\([a-Z0-9]\{1,\}\);/\&\1;/g'
+	sed 's/\&[a-zA-Z0-9]\{1,\};\([a-zA-Z0-9]\{1,\}\);/\&\1;/g'
 
 }
 
