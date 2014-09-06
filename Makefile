@@ -2,6 +2,7 @@ PREFIX ?= /usr/local
 bindir = $(PREFIX)/bin
 XSLDIR = $(bindir)/oscdoc_xsl
 RESOURCESDIR = $(bindir)/oscdoc_res
+MANDIR = $(PREFIX)/man/man1
 
 BUILDDIR = build
 
@@ -25,6 +26,7 @@ build:
 	mkdir -p $(BUILDDIR)
 	cp $(LIB)/archives/tree-1.7.0_dyna.tgz $(BUILDDIR)
 	cd $(BUILDDIR) && tar xfz tree-1.7.0_dyna.tgz && rm tree-1.7.0_dyna.tgz && cd tree-1.7.0_dyna && make
+	a2x -f manpage doc/oscdoc.1.txt
 
 	@echo ""
 	@echo "done."
@@ -102,6 +104,8 @@ install:
 	install -m644 $(LIB)/jquery.dynatree.min.js $(DESTDIR)$(RESOURCESDIR)/
 	install -m644 $(LIB)/jquery-ui.custom.min.js $(DESTDIR)$(RESOURCESDIR)/
 
+	install -m644 doc/oscdoc.1 $(MANDIR)/
+
 	@echo ""
 	@echo "use: oscdoc test_data/unit.xml /tmp"
 	@echo "use: osctxt0 test_data/unit.xml"
@@ -154,6 +158,8 @@ uninstall:
 	rm -f $(DESTDIR)$(RESOURCESDIR)/draft.png
 	rm -f $(DESTDIR)$(RESOURCESDIR)/jquery.dynatree.min.js
 	rm -f $(DESTDIR)$(RESOURCESDIR)/jquery-ui.custom.min.js
+	
+	rm -f $(MANDIR)/oscdoc.1
 
 	-rmdir $(DESTDIR)$(RESOURCESDIR)
 

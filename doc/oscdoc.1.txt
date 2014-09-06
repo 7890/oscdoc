@@ -1,0 +1,38 @@
+OSCDOC(1)
+=========
+:doctype: manpage
+
+NAME
+----
+oscdoc - convert OSC API specification into HTML
+
+SYNOPSIS
+--------
+*oscdoc* 'SOURCE.xml' 'OUTPUT-DIRECTORY' ['SHOW_TREE']
+
+DESCRIPTION
+-----------
+The oscdoc command translates a source XML file based on the oschema into an
+interactive html representation. If 'SHOW_TREE' is '1' then the produced tree
+is displayed to the user.
+
+EXAMPLES
+--------
+`oscdoc foo.xml bar`::
+  Renders the API specified in 'foo.xml' to './bar'
+
+`oscdoc foo.xml bar 1`::
+  Performs identically to previous example, but the generated tree is
+  displayed
+
+BUGS
+----
+Please report bugs to https://github.com/7890/oscdoc/issues
+
+AUTHOR
+------
+oscdoc was written by Thomas Brand.
+
+COPYING
+-------
+oscdoc is released under the public domain.
