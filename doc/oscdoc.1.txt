@@ -35,4 +35,6 @@ oscdoc was written by Thomas Brand.
 
 COPYING
 -------
-oscdoc is released under the public domain.
+Copyright \(C) 2013 - 2014 Thomas Brand. Free use of this software is
+granted under the terms of the GNU General Public License (GPL).
+
